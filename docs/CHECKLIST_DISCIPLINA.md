@@ -4,7 +4,7 @@
 
 Os marcadores abaixo separam **conteúdo preparado** de **entrega efetiva**. Não se deve afirmar que o AVA foi enviado ou o aplicativo foi implementado sem evidência.
 
-## Fase 1 — apresentações de 20 e 22 de outubro de 2026
+## Fase 1 — planejamento e apresentação
 
 Os slides do planejamento devem conter:
 
@@ -36,7 +36,7 @@ Acompanhamento recomendado:
 - [ ] Conferir/organizar status **A Fazer, Em Desenvolvimento, Em Teste, Concluído** no **GitHub Projects**
 - [ ] Atualizar status conforme o trabalho avança
 
-## Fase 2 — apresentações de 24 e 26 de novembro de 2026
+## Fase 2 — desenvolvimento e apresentação
 
 Requisitos mínimos do aplicativo:
 
