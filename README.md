@@ -1,54 +1,85 @@
 # NandoSync
 
-Aplicativo mobile planejado para apoiar a gestão comercial de concessionárias de veículos usados e seminovos. Projeto acadêmico da disciplina **Desenvolvimento Mobile** (Sistemas de Informação).
+**Gestão comercial de veículos, clientes e negociações em um só lugar.**
 
-> **Situação atual (Fase 1):** projeto em planejamento. As telas apresentadas são **protótipos visuais**, não funcionalidades implementadas. Ainda não há aplicativo React Native funcional neste repositório.
+O NandoSync é um ERP/CRM mobile **em desenvolvimento**, pensado para concessionárias e lojas de veículos usados e seminovos. A proposta é reunir estoque, relacionamento com clientes, propostas de venda e informações comerciais em uma experiência adequada ao celular.
 
-## Problema e solução
+**Estado atual:** conceito, protótipos de interface, requisitos e modelo inicial de dados documentados. **Ainda não existe uma versão executável do aplicativo neste repositório.**
 
-Informações sobre veículos, clientes e negociações podem ficar dispersas. O NandoSync propõe reuni-las em uma aplicação com navegação simples e perfis de acesso.
+## Por que o NandoSync?
 
-**Público-alvo:** vendedores, gerentes e proprietários de concessionárias.
+No dia a dia de uma loja de veículos, dados de estoque, contatos e negociações podem ficar espalhados entre ferramentas e registros. O NandoSync busca centralizar essas informações para facilitar a consulta, o acompanhamento e a tomada de decisão. O público previsto inclui vendedores, gerentes e proprietários.
 
-## Funcionalidades planejadas
+## Módulos do produto
 
-1. **Início:** indicadores demonstrativos e atalhos.
-2. **Estoque:** cadastro, listagem, busca, detalhes, edição e exclusão de veículos.
-3. **Clientes:** cadastro de clientes/leads, intenção de compra, etapa do funil e contatos.
-4. **Vendas e Financiamentos:** registro de propostas/vendas, forma de pagamento, entrada, veículo na troca e andamento da negociação. **Não** está prevista integração bancária real nesta entrega.
-5. **Relatórios & Resultados:** indicadores e desempenho comercial com acesso gerencial; a profundidade dos relatórios dependerá da viabilidade de implementação.
-6. **Usuários:** cadastro/login e permissões conforme perfil.
+| Módulo | Escopo previsto | Estado |
+| --- | --- | --- |
+| Dashboard | Resumo da operação, status de veículos e atalhos | Prototipado |
+| Estoque de veículos | Cadastro, listagem, filtros, detalhes, edição e exclusão | Prototipado |
+| CRM | Cadastro de clientes/leads, etapas do funil e histórico de contatos | Prototipado |
+| Vendas | Propostas, negociação, preço e fechamento de venda | Prototipado |
+| Financiamentos | Registro da forma de pagamento e acompanhamento do status comercial | Prototipado |
+| Relatórios | Indicadores de desempenho, tempo em estoque e resultados | Prototipado |
+| Administração | Cadastro/login e permissões por perfil | Planejado e representado em protótipos |
 
-## Tecnologias previstas
+**Prototipado** significa que a ideia foi representada visualmente, **não que a função esteja implementada**. Nenhum módulo possui implementação funcional versionada até o momento. A integração com bancos, a aprovação de crédito e a assinatura digital **não fazem parte do escopo confirmado**.
 
-- **React Native** para o aplicativo mobile (obrigatório na disciplina).
-- **MySQL** como banco de dados relacional escolhido para o planejamento.
-- **MySQL Workbench** para modelagem/administração do banco.
-- Uma **API** de backend para comunicação do app com o MySQL; a tecnologia específica do servidor ainda será definida. O app **não** acessará o MySQL diretamente.
-- **Git e GitHub Projects** para registro do trabalho e acompanhamento.
+## Tecnologias
 
-## Etapas do projeto
+| Tecnologia | Finalidade | Situação |
+| --- | --- | --- |
+| React Native | Aplicativo para dispositivos móveis | Previsto; projeto ainda não inicializado |
+| MySQL | Persistência de dados | Previsto; banco ainda não implementado |
+| MySQL Workbench | Modelagem e administração do banco | Ferramenta de planejamento |
+| API de backend | Comunicação entre aplicativo e banco | Arquitetura prevista; stack ainda não definida |
+| Markdown e Mermaid | Documentação e modelo conceitual | Disponíveis no repositório |
 
-| Etapa | Entregáveis previstos |
-| --- | --- |
-| Fase 1 — Planejamento | PDF da apresentação e link do GitHub Projects para envio no AVA |
-| Fase 2 — Aplicativo funcional | Aplicativo React Native, código no GitHub, README técnico e vídeo de demonstração de até 10 minutos |
+A aplicação **não** deve conectar diretamente ao MySQL. A estratégia planejada é utilizar uma API intermediária com autenticação e regras de acesso. Veja [arquitetura](docs/arquitetura.md).
 
-A tabela representa os entregáveis previstos e **não confirma que tenham sido enviados**.
+## Organização do repositório
 
-## Documentação do planejamento
+```text
+NandoSync/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   └── pull_request_template.md
+├── docs/
+│   ├── arquitetura.md
+│   ├── modelo-de-dados.md
+│   ├── prototipos.md
+│   ├── roadmap.md
+│   └── visao-geral.md
+├── .gitignore
+└── README.md
+```
 
-- [Conceito, funcionalidades, navegação e cronograma](docs/PLANEJAMENTO.md)
-- [Protótipos e correspondência com as telas](docs/PROTOTIPOS.md)
-- [Modelo inicial de dados](docs/MODELO_DADOS.md)
-- [Critérios acadêmicos e checklist por fase](docs/CHECKLIST_DISCIPLINA.md)
+A estrutura atual é **somente de documentação e organização**. Os diretórios do aplicativo e do backend serão incluídos quando seus projetos forem criados, sem antecipar arquivos fictícios.
 
-As atividades de execução e acompanhamento estão nas [Issues](https://github.com/Jhenrique00/NandoSync/issues). Os **status do GitHub Projects** precisam ser mantidos atualizados no quadro.
+## Documentação
 
-## Escopo mínimo viável para o desenvolvimento
+- [Visão geral e escopo do produto](docs/visao-geral.md)
+- [Arquitetura proposta](docs/arquitetura.md)
+- [Modelo inicial de dados](docs/modelo-de-dados.md)
+- [Protótipos e telas planejadas](docs/prototipos.md)
+- [Roadmap e critérios de evolução](docs/roadmap.md)
 
-Prioridade para: cadastro/login, navegação em telas mobile, **CRUD completo de veículos**, armazenamento persistente, validação dos campos, erros tratados e demonstração de um fluxo ponta a ponta. Depois, incorporar clientes, propostas e indicadores na medida em que as funções principais estiverem estáveis. A Fase 2 será avaliada pelas funcionalidades efetivamente entregues.
+## Roadmap resumido
 
-## Executar o projeto
+1. **Fundação:** definir stack do backend, inicializar React Native, configurar API e persistência.
+2. **Fluxo principal:** autenticação, navegação mobile e CRUD persistente de veículos.
+3. **Operação comercial:** CRM, propostas, vendas e acompanhamento de financiamento.
+4. **Gestão e qualidade:** controle de acesso, indicadores, testes e documentação de execução.
 
-**Ainda não aplicável:** o código React Native e a API serão criados na Fase 2. Quando houver código, este README deverá informar dependências, pré-requisitos, variáveis de ambiente (sem senhas), configuração do MySQL e comandos de execução. Não há credenciais ou configurações de produção publicadas aqui.
+As prioridades podem mudar conforme a evolução do produto. O acompanhamento do trabalho acontece nas [Issues](https://github.com/Jhenrique00/NandoSync/issues).
+
+## Instalação e execução
+
+**Ainda não há comandos de instalação ou execução para o aplicativo:** o código mobile e a API não foram adicionados ao repositório. Quando estiverem disponíveis, esta seção terá pré-requisitos, configuração do ambiente e comandos validados para iniciar o projeto.
+
+## Participação e licença
+
+Sugestões de melhorias e relatos de problemas podem ser registrados nas [Issues](https://github.com/Jhenrique00/NandoSync/issues). Alterações propostas podem ser discutidas antes de um pull request.
+
+**Licença ainda não definida.** Até que o autor escolha uma, não se deve presumir permissão de redistribuição ou uso comercial do código.
