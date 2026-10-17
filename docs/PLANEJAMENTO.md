@@ -63,16 +63,16 @@ O vendedor acessará operações autorizadas. Gerente/administrador terá acesso
 
 **Veículos**, **Clientes**, **Vendas/Propostas** e **Usuários**. Os campos e relacionamentos estão em [MODELO_DADOS.md](MODELO_DADOS.md). Trata-se de um modelo preliminar para a Fase 1.
 
-## 8. Cronograma de referência
+## 8. Cronograma por etapas
 
-| Período | Trabalho |
+| Etapa | Trabalho planejado |
 | --- | --- |
-| 20 e 22 de outubro | Apresentação do conceito, objetivos, protótipos, fluxo, tecnologias, ER e cronograma |
-| Fim de outubro | Preparação de ambiente React Native, repositório, navegação e API |
-| Novembro | Implementação de autenticação, CRUD, persistência, telas e testes |
-| 24 e 26 de novembro | Demonstração funcional, README de execução, vídeo e apresentação final |
+| Planejamento | Conceito, objetivos, protótipos, navegação e modelo de dados |
+| Preparação | Ambiente React Native, repositório, navegação e API |
+| Desenvolvimento | Autenticação, CRUD, persistência, telas e testes |
+| Entrega final | Demonstração funcional, README, vídeo e apresentação |
 
-As datas de outubro/novembro acima são as datas **oficiais de apresentação** do enunciado. As etapas intermediárias são **estimativas do planejamento**.
+As etapas intermediárias são uma proposta de organização do trabalho, sujeita à evolução registrada no GitHub Projects.
 
 ## 9. Estratégia de viabilidade
 
