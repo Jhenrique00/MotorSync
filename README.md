@@ -27,14 +27,14 @@ Informações sobre veículos, clientes e negociações podem ficar dispersas. O
 - Uma **API** de backend para comunicação do app com o MySQL; a tecnologia específica do servidor ainda será definida. O app **não** acessará o MySQL diretamente.
 - **Git e GitHub Projects** para registro do trabalho e acompanhamento.
 
-## Fases e datas oficiais
+## Etapas do projeto
 
-| Etapa | Datas de apresentação | Resultado |
-| --- | --- | --- |
-| Fase 1 — Planejamento | 20 e 22 de outubro de 2026 | PDF dos slides e link do GitHub Projects enviados pelo AVA |
-| Fase 2 — Aplicativo funcional | 24 e 26 de novembro de 2026 | App React Native demonstrável, código GitHub, README técnico e vídeo de até 10 min no Google Drive |
+| Etapa | Entregáveis previstos |
+| --- | --- |
+| Fase 1 — Planejamento | PDF da apresentação e link do GitHub Projects para envio no AVA |
+| Fase 2 — Aplicativo funcional | Aplicativo React Native, código no GitHub, README técnico e vídeo de demonstração de até 10 minutos |
 
-**Atenção:** a tabela descreve **exigências da disciplina**, não confirma que a entrega no AVA tenha sido realizada.
+A tabela representa os entregáveis previstos e **não confirma que tenham sido enviados**.
 
 ## Documentação do planejamento
 
@@ -45,7 +45,7 @@ Informações sobre veículos, clientes e negociações podem ficar dispersas. O
 
 As atividades de execução e acompanhamento estão nas [Issues](https://github.com/Jhenrique00/NandoSync/issues). Os **status do GitHub Projects** precisam ser mantidos atualizados no quadro.
 
-## Escopo mínimo viável para novembro
+## Escopo mínimo viável para o desenvolvimento
 
 Prioridade para: cadastro/login, navegação em telas mobile, **CRUD completo de veículos**, armazenamento persistente, validação dos campos, erros tratados e demonstração de um fluxo ponta a ponta. Depois, incorporar clientes, propostas e indicadores na medida em que as funções principais estiverem estáveis. A Fase 2 será avaliada pelas funcionalidades efetivamente entregues.
 
