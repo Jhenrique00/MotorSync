@@ -1,49 +1,56 @@
-# Roadmap do NandoSync
+# Roadmap do MotorSync
 
-Este roadmap representa **prioridades de produto**, sem compromisso público de datas. A implementação ainda não foi iniciada neste repositório.
+Este documento descreve **prioridades**, não datas prometidas. O código mobile e o backend ainda não estão versionados neste repositório. As Issues antigas de NandoSync representam histórico do escopo anterior e devem ser reavaliadas.
 
 ## Estado atual
 
-- [x] Conceito, problema e público-alvo definidos.
-- [x] Protótipos das principais áreas elaborados.
-- [x] Fluxo inicial de navegação descrito.
-- [x] Modelo conceitual de dados documentado.
-- [ ] Código mobile, API e persistência reais.
+- [x] Identidade e conceito MotorSync definidos.
+- [x] Navegação e fluxos explorados em protótipo HTML externo.
+- [x] Módulos de comunidade, marketplace e Gestão mapeados.
+- [ ] Código React Native e Expo real versionado.
+- [ ] Autenticação segura e banco persistente.
+- [ ] Deploy, CI e testes em aparelhos físicos.
 
-## Etapa 1 — Base técnica
+## Fase 1 — Fundação
 
-- [ ] [#5](https://github.com/Jhenrique00/NandoSync/issues/5) Configurar o projeto React Native.
-- [ ] [#14](https://github.com/Jhenrique00/NandoSync/issues/14) Definir backend, API e persistência MySQL.
-- [ ] [#13](https://github.com/Jhenrique00/NandoSync/issues/13) Implementar navegação mobile.
-- [ ] [#12](https://github.com/Jhenrique00/NandoSync/issues/12) Implementar cadastro/login.
+- [ ] Auditar HTML de referência e estabelecer inventário de funcionalidades.
+- [ ] Inicializar React Native + Expo Router + TypeScript.
+- [ ] Estabelecer design system, tema claro/escuro e navegação.
+- [ ] Definir backend e preparar migrações, RLS, ambientes e autenticação.
+- [ ] Configurar testes, lint e CI.
 
-## Etapa 2 — Operações comerciais
+## Fase 2 — Comunidade funcional
 
-- [ ] [#6](https://github.com/Jhenrique00/NandoSync/issues/6) CRUD de veículos.
-- [ ] [#7](https://github.com/Jhenrique00/NandoSync/issues/7) Cadastro e acompanhamento de clientes.
-- [ ] [#8](https://github.com/Jhenrique00/NandoSync/issues/8) Propostas, vendas e status de financiamentos.
+- [ ] Usuários reais, perfis e sessão.
+- [ ] Upload e armazenamento persistente de fotos/vídeos.
+- [ ] Feed, comentários, curtidas, favoritos, seguir criadores e estados de erro.
 
-## Etapa 3 — Gestão e qualidade
+## Fase 3 — Marketplace funcional
 
-- [ ] [#15](https://github.com/Jhenrique00/NandoSync/issues/15) Permissões por perfil.
-- [ ] [#16](https://github.com/Jhenrique00/NandoSync/issues/16) Dashboard e indicadores gerenciais.
-- [ ] [#9](https://github.com/Jhenrique00/NandoSync/issues/9) Validação, testes e correções.
-- [ ] [#10](https://github.com/Jhenrique00/NandoSync/issues/10) Demonstração funcional e guia de execução.
+- [ ] Publicar anúncios de veículos e peças, com propriedade verificada.
+- [ ] Pesquisa, filtros, categorias e comparação.
+- [ ] Favoritos, detalhes, propostas e comunicação com o anunciante.
 
-## Critérios de qualidade para um primeiro fluxo utilizável
+## Fase 4 — Gestão conectada
 
-- Aplicativo React Native inicializa e navega entre telas em dispositivo/emulador.
-- Cadastro e login funcionam com validação básica.
-- Ao menos o módulo de veículos permite **criar, consultar, editar e excluir**.
-- Os dados continuam disponíveis após reiniciar a aplicação.
-- Erros comuns e dados inválidos recebem tratamento compreensível.
-- Fluxos com informações restritas são protegidos na API.
-- README traz instruções realmente reproduzíveis assim que o código existir.
+- [ ] Estoque, Clientes, Propostas e Vendas conectados a anúncios reais.
+- [ ] Permissões de vendedor, gerente e administrador.
+- [ ] Regras transacionais de reserva, venda e histórico.
+- [ ] Indicadores financeiros corretos e pendências acionáveis.
 
-Os itens acima são **metas**, não funcionalidades já disponíveis.
+## Fase 5 — Módulos complementares e lançamento
 
-## Fora do escopo confirmado
+- [ ] Financeiro, ordens de serviço, contratos, documentos, tarefas, relatórios.
+- [ ] Testes de segurança, desempenho, privacidade e acessibilidade.
+- [ ] Builds Android/iOS e testes em dispositivos.
+- [ ] Estudar integrações oficiais e serviços regulados com fornecedores autorizados.
 
-Integração direta com bancos, aprovação automatizada de crédito, assinatura digital e emissão de contratos. Essas possibilidades exigiriam avaliação posterior e não devem ser anunciadas como recursos existentes.
+## Definição de pronto para o MVP
 
-O estado mais recente das tarefas deve ser consultado nas [Issues](https://github.com/Jhenrique00/NandoSync/issues). O quadro de trabalho ideal utiliza **Backlog → Em desenvolvimento → Em revisão → Concluído**.
+- Login e sessões reais, acesso por perfil seguro.
+- Anúncios e publicações persistentes entre dispositivos.
+- Propostas no marketplace vinculadas ao CRM.
+- Venda e reserva consistentes mesmo com uso concorrente.
+- Fluxos testados e documentação de instalação reproduzível.
+
+Não anunciar FIPE, DETRAN/Senatran, boletos ou NFS-e como integrados até existirem testes com serviços reais.
