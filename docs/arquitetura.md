@@ -1,50 +1,68 @@
-# Arquitetura proposta
+# Arquitetura proposta — MotorSync
 
-Esta documentação descreve uma **direção técnica planejada**. Não há componentes em execução no repositório.
+> **Planejamento técnico, não implementação existente.** O repositório ainda não possui código React Native/Expo nem infraestrutura Supabase configurada.
 
-## Visão geral
+## Arquitetura-alvo
 
 ```mermaid
 flowchart LR
-    A[Aplicativo mobile<br/>React Native] -->|HTTP / HTTPS| B[API de backend<br/>Stack a definir]
-    B -->|Consultas e transações| C[(MySQL)]
-    D[MySQL Workbench<br/>Ferramenta de administração] -.-> C
+    A[MotorSync mobile<br/>React Native + Expo + TypeScript]
+    B[Autenticação e serviços<br/>Supabase / API segura]
+    C[(PostgreSQL<br/>RLS)]
+    D[(Storage<br/>fotos e vídeos)]
+    E[Funções seguras<br/>transações e integrações]
+    A --> B
+    B --> C
+    B --> D
+    B --> E
 ```
 
-A tecnologia da API ainda será selecionada. O MySQL Workbench serve para modelar e administrar o banco; não substitui o servidor MySQL.
+Supabase é a opção preferencial para avaliação; a decisão definitiva depende de requisitos, custos e segurança. O aplicativo não deve conter chaves secretas nem executar regras críticas exclusivamente no dispositivo.
 
-## Responsabilidades previstas
+## Organização sugerida
+
+```text
+apps/mobile/
+  src/app/               # rotas Expo Router
+  src/components/        # UI reutilizável
+  src/features/          # home, explorar, criação, gestão, perfil
+  src/services/          # autenticação e chamadas de backend
+  src/theme/             # tokens visuais
+  src/types/
+supabase/
+  migrations/
+  functions/
+docs/
+```
+
+## Responsabilidades
 
 | Camada | Responsabilidade |
 | --- | --- |
-| Mobile | Telas, navegação, formulários, estados de carregamento e feedback |
-| API | Autenticação, autorização, validação, regras de negócio e acesso a dados |
-| Banco | Armazenamento relacional de usuários, veículos, clientes e negociações |
+| Mobile | UI, navegação, validação básica, prévia de mídia, acessibilidade |
+| Backend | autenticação, políticas de acesso, upload, transações, integrações e auditoria |
+| PostgreSQL | relações, restrições, índices e isolamento entre organizações |
+| Storage | persistência e controle de acesso de fotos e vídeos |
 
-## Fluxos importantes
+## Transações comerciais
 
-**Estoque:** formulário no app → API valida dados → MySQL armazena → API retorna confirmação → app atualiza listagem.
+1. Criar anúncio vinculado ao proprietário e, opcionalmente, a uma organização.
+2. Criar proposta com comprador, anunciante e anúncio validado.
+3. Aceitar proposta com verificação concorrente do status e reserva do veículo.
+4. Concluir venda sem duplicidade; atualizar disponibilidade e histórico no mesmo fluxo consistente.
+5. Impedir remoção de registros vinculados a vendas ou propostas aceitas sem fluxo autorizado.
 
-**Venda:** vendedor vincula cliente e veículo → API valida a negociação → registra proposta/venda → ao concluir, atualiza disponibilidade com controle de consistência.
+## Segurança e privacidade
 
-**Área gerencial:** o app apresenta apenas rotas permitidas, mas a API também precisa verificar o perfil antes de retornar dados restritos.
+- RLS por usuário, organização e papel.
+- Validação no servidor para custos, propostas, reservas e vendas.
+- Não confiar em controles meramente visuais.
+- Credenciais fora do Git; somente `.env.example` pode ser versionado.
+- Tratar dados pessoais segundo requisitos legais aplicáveis.
+- Mídia com fallback, estados de falha e política de retenção.
 
-## Diretrizes de implementação
+## Migração do protótipo
 
-- Não colocar credenciais MySQL no aplicativo.
-- Não armazenar senhas em texto puro; usar hash apropriado.
-- Validar dados no cliente e no servidor.
-- Usar consultas parametrizadas e regras de autorização na API.
-- Nunca expor custos/margens apenas porque a interface ocultou ou mostrou um botão.
-- Configurações locais e segredos devem ficar fora do versionamento.
+O HTML atual é **referência de interface e comportamento**. Não deve ser incorporado como uma WebView única na versão de produção. Componentes e regras devem ser reconstruídos e testados em React Native.
 
-## Decisões pendentes
-
-- Framework/runtime do backend.
-- Estratégia de sessão/autenticação.
-- Convenção de rotas e validação.
-- Modelo lógico definitivo, migrações e transações.
-- Estratégia de testes automatizados.
-- Organização dos diretórios de código quando o app for inicializado.
-
-Consulte o [modelo de dados](modelo-de-dados.md) e o [roadmap](roadmap.md). Nenhuma dessas decisões deve ser apresentada como implementada antes de existir código.
+Veja [modelo de dados](modelo-de-dados.md) e [roadmap](roadmap.md).
