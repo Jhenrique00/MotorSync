@@ -1,85 +1,66 @@
-# NandoSync
+# MotorSync
 
-**Gestão comercial de veículos, clientes e negociações em um só lugar.**
+**Tudo sobre automotivo: comunidade, marketplace e gestão em uma única plataforma.**
 
-O NandoSync é um ERP/CRM mobile **em desenvolvimento**, pensado para concessionárias e lojas de veículos usados e seminovos. A proposta é reunir estoque, relacionamento com clientes, propostas de venda e informações comerciais em uma experiência adequada ao celular.
+O **MotorSync** é um produto mobile em desenvolvimento que conecta pessoas, criadores, compradores, vendedores e negócios do universo automotivo. O objetivo é transformar conteúdo em descoberta, anúncios em negociações e negociações em operações comerciais organizadas.
 
-**Estado atual:** conceito, protótipos de interface, requisitos e modelo inicial de dados documentados. **Ainda não existe uma versão executável do aplicativo neste repositório.**
+> **Estado do repositório:** aqui estão versionados o planejamento e a documentação. O protótipo interativo HTML foi desenvolvido à parte e **ainda não é um aplicativo Android/iOS de produção**. O código React Native, banco persistente, autenticação real e integrações externas ainda precisam ser implementados e versionados.
 
-## Por que o NandoSync?
+## Três pilares
 
-No dia a dia de uma loja de veículos, dados de estoque, contatos e negociações podem ficar espalhados entre ferramentas e registros. O NandoSync busca centralizar essas informações para facilitar a consulta, o acompanhamento e a tomada de decisão. O público previsto inclui vendedores, gerentes e proprietários.
+| Pilar | Experiência prevista |
+| --- | --- |
+| **Home / Comunidade** | Feed de fotos, vídeos e texto, perfis, seguir criadores, comentários, curtidas, favoritos e conteúdo associado a anúncios. |
+| **Explorar / Marketplace** | Automóveis, motos, caminhões, embarcações, jet skis, peças e acessórios; pesquisa, filtros, comparação, anúncios e propostas. |
+| **Gestão / ERP e CRM** | Estoque, clientes, propostas, vendas, indicadores e, progressivamente, financeiro, contratos, documentos, tarefas, OS e recursos empresariais. |
 
-## Módulos do produto
+A navegação de produto prevê **Home · Explorar · Criar (+) · Gestão · Perfil**.
 
-| Módulo | Escopo previsto | Estado |
-| --- | --- | --- |
-| Dashboard | Resumo da operação, status de veículos e atalhos | Prototipado |
-| Estoque de veículos | Cadastro, listagem, filtros, detalhes, edição e exclusão | Prototipado |
-| CRM | Cadastro de clientes/leads, etapas do funil e histórico de contatos | Prototipado |
-| Vendas | Propostas, negociação, preço e fechamento de venda | Prototipado |
-| Financiamentos | Registro da forma de pagamento e acompanhamento do status comercial | Prototipado |
-| Relatórios | Indicadores de desempenho, tempo em estoque e resultados | Prototipado |
-| Administração | Cadastro/login e permissões por perfil | Planejado e representado em protótipos |
+### Fluxo que conecta o produto
 
-**Prototipado** significa que a ideia foi representada visualmente, **não que a função esteja implementada**. Nenhum módulo possui implementação funcional versionada até o momento. A integração com bancos, a aprovação de crédito e a assinatura digital **não fazem parte do escopo confirmado**.
+1. Um anunciante cadastra um veículo.
+2. O veículo aparece no marketplace.
+3. Uma publicação pode vincular-se ao anúncio.
+4. Um interessado abre o anúncio a partir do conteúdo e envia uma proposta.
+5. Se o anunciante usar a Gestão, a proposta entra no CRM de sua organização.
+6. Uma venda concluída atualiza disponibilidade e indicadores, com validação de permissões e consistência no backend.
 
-## Tecnologias
+## Identidade visual
 
-| Tecnologia | Finalidade | Situação |
-| --- | --- | --- |
-| React Native | Aplicativo para dispositivos móveis | Previsto; projeto ainda não inicializado |
-| MySQL | Persistência de dados | Previsto; banco ainda não implementado |
-| MySQL Workbench | Modelagem e administração do banco | Ferramenta de planejamento |
-| API de backend | Comunicação entre aplicativo e banco | Arquitetura prevista; stack ainda não definida |
-| Markdown e Mermaid | Documentação e modelo conceitual | Disponíveis no repositório |
+A marca **MotorSync** utiliza preto, branco, cinza e laranja. A logo original deve ser preservada sem redesenho ou distorção. O design prioriza experiência mobile, legibilidade, acessibilidade e modos claro/escuro.
 
-A aplicação **não** deve conectar diretamente ao MySQL. A estratégia planejada é utilizar uma API intermediária com autenticação e regras de acesso. Veja [arquitetura](docs/arquitetura.md).
+## Estado de implementação
 
-## Organização do repositório
+- **Conceito e documentação:** disponíveis neste repositório.
+- **Protótipo HTML navegável:** desenvolvido separadamente, com **dados fictícios e armazenamento local**, sem serviços oficiais conectados; ainda não está versionado aqui.
+- **Aplicativo React Native/Expo real:** não iniciado neste repositório.
+- **Autenticação, banco de dados e mídia persistente:** planejados, não disponíveis em produção.
+- **FIPE, DETRAN/Senatran, notas, boletos e assinaturas:** sem integração real; não apresentar simulações como documentos ou consultas oficiais.
 
-```text
-NandoSync/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   └── feature_request.md
-│   └── pull_request_template.md
-├── docs/
-│   ├── arquitetura.md
-│   ├── modelo-de-dados.md
-│   ├── prototipos.md
-│   ├── roadmap.md
-│   └── visao-geral.md
-├── .gitignore
-└── README.md
-```
+## Stack proposta para a versão funcional
 
-A estrutura atual é **somente de documentação e organização**. Os diretórios do aplicativo e do backend serão incluídos quando seus projetos forem criados, sem antecipar arquivos fictícios.
+- **Mobile:** React Native, Expo, TypeScript e Expo Router.
+- **Backend:** Supabase como opção preferencial a validar (PostgreSQL, Auth, Storage, RLS e funções para transações críticas).
+- **Qualidade:** testes de interface, regras de negócio, permissões, segurança e fluxos Android/iOS.
 
-## Documentação
+Estas são **decisões de planejamento**, não dependências já instaladas.
 
-- [Visão geral e escopo do produto](docs/visao-geral.md)
-- [Arquitetura proposta](docs/arquitetura.md)
-- [Modelo inicial de dados](docs/modelo-de-dados.md)
-- [Protótipos e telas planejadas](docs/prototipos.md)
-- [Roadmap e critérios de evolução](docs/roadmap.md)
+## Próximas etapas
 
-## Roadmap resumido
+1. Auditar o protótipo e criar a matriz de telas/regras.
+2. Inicializar projeto Expo com design system e navegação.
+3. Implementar autenticação, organizações e permissões com dados persistentes.
+4. Conectar Home, anúncios do Explorar, propostas e módulos essenciais de Gestão.
+5. Testar em aparelhos, corrigir fluxos e só depois ampliar módulos regulados.
 
-1. **Fundação:** definir stack do backend, inicializar React Native, configurar API e persistência.
-2. **Fluxo principal:** autenticação, navegação mobile e CRUD persistente de veículos.
-3. **Operação comercial:** CRM, propostas, vendas e acompanhamento de financiamento.
-4. **Gestão e qualidade:** controle de acesso, indicadores, testes e documentação de execução.
+Veja a [visão geral](docs/visao-geral.md), a [arquitetura proposta](docs/arquitetura.md), o [modelo de dados](docs/modelo-de-dados.md), o [mapa de interfaces](docs/prototipos.md) e o [roadmap](docs/roadmap.md).
 
-As prioridades podem mudar conforme a evolução do produto. O acompanhamento do trabalho acontece nas [Issues](https://github.com/Jhenrique00/NandoSync/issues).
+## Como executar
 
-## Instalação e execução
+**Ainda não há aplicativo React Native executável neste repositório.** Não execute comandos npm/Expo nesta raiz até que o projeto seja inicializado. O protótipo HTML externo, quando disponibilizado aqui, deverá permanecer identificado como demonstração.
 
-**Ainda não há comandos de instalação ou execução para o aplicativo:** o código mobile e a API não foram adicionados ao repositório. Quando estiverem disponíveis, esta seção terá pré-requisitos, configuração do ambiente e comandos validados para iniciar o projeto.
+## Histórico e licença
 
-## Participação e licença
+Este projeto começou com o nome **NandoSync** e evoluiu para **MotorSync**. Referências antigas podem permanecer no histórico de commits e Issues para preservar rastreabilidade.
 
-Sugestões de melhorias e relatos de problemas podem ser registrados nas [Issues](https://github.com/Jhenrique00/NandoSync/issues). Alterações propostas podem ser discutidas antes de um pull request.
-
-**Licença ainda não definida.** Até que o autor escolha uma, não se deve presumir permissão de redistribuição ou uso comercial do código.
+**Licença ainda não definida.** A ausência de licença não autoriza redistribuição ou uso comercial do código.
