@@ -1,54 +1,40 @@
-# Visão geral do NandoSync
+# Visão geral do MotorSync
 
 ## Produto
 
-O NandoSync é uma proposta de ERP/CRM mobile para concessionárias e lojas de veículos usados e seminovos. O propósito é apoiar rotinas de estoque, relacionamento com clientes e acompanhamento de negociações em um único sistema.
+O **MotorSync** une **comunidade automotiva**, **marketplace de veículos/peças** e **gestão empresarial (ERP/CRM)** no mesmo produto mobile. Ele não pertence a uma loja específica: conecta pessoas físicas, criadores, vendedores, oficinas, revendas, concessionárias e empresas de autopeças.
 
-**Estado:** planejamento de produto, protótipos e modelagem preliminar. Não há implementação funcional publicada neste repositório.
+**Estado:** existe um protótipo HTML interativo desenvolvido separadamente, com simulações e dados locais. Este repositório ainda contém documentação; não há aplicativo mobile de produção, servidor ou banco de dados real versionados aqui.
 
-## Problema
+## Problemas que resolve
 
-Informações de veículos, clientes e negócios podem ficar fragmentadas, dificultando localizar histórico, acompanhar propostas e visualizar resultados.
+- Conteúdo automotivo e anúncios ficam espalhados entre aplicativos.
+- Compradores têm dificuldade para comparar ofertas e conversar com anunciantes.
+- Empresas acompanham estoque, clientes e propostas em ferramentas desconectadas.
 
-## Público previsto
+## Experiência do usuário
 
-- **Vendedor:** consulta ao estoque, relacionamento com clientes e acompanhamento das próprias negociações.
-- **Gerente:** acompanhamento da operação, equipe, indicadores e resultados comerciais.
-- **Administrador/proprietário:** configuração e visão gerencial, com permissões apropriadas.
+- **Home:** feed social de fotos/vídeos/texto, criadores, curtidas, comentários, favoritos e descrição expansível; conteúdos podem apontar a anúncios.
+- **Explorar:** categorias expansíveis **Automóveis** e **Autopeças**, anúncios em destaque, popularidade identificada com transparência, listagem comum, filtros e comparação.
+- **Criar (+):** foto, vídeo, texto ou anúncio, com validações e pré-visualização.
+- **Gestão:** visão geral, pendências acionáveis, Estoque, Clientes, Propostas e Vendas como acessos principais; demais módulos agrupados.
+- **Perfil:** conta pessoal, publicações, anúncios, favoritos, preferências e contexto empresarial.
 
-Os perfis e permissões são **previstos**, ainda não implementados.
+## Públicos e permissões
 
-## Experiência planejada
+- **Pessoa física:** conteúdo, anúncios e negociações próprias.
+- **Pessoa jurídica:** organização com anúncios e operação empresarial.
+- **Vendedor:** acesso comercial autorizado por organização.
+- **Gerente/administrador:** permissões ampliadas, custos e indicadores conforme regras.
 
-1. O usuário se autentica.
-2. Na tela inicial, vê um resumo da operação e atalhos.
-3. Pelo menu, acessa Estoque, Clientes, Vendas e Financiamentos.
-4. Perfis autorizados também acessam Relatórios & Resultados.
+No aplicativo real, acesso deverá ser verificado **no servidor e no banco**; ocultar botões na tela não basta.
 
-## Módulos
+## Diferencial
 
-### Dashboard
-Resumo visual de veículos, vendas e indicadores comerciais. Os números presentes nos protótipos são fictícios.
+Uma publicação da Home pode levar ao anúncio no Explorar; uma proposta criada ali poderá abrir uma negociação no CRM da empresa. Esse vínculo precisa utilizar identificadores consistentes e regras transacionais.
 
-### Estoque de veículos
-Cadastro, listagem, filtros e ciclo de vida do veículo (disponível, reservado, em preparação, vendido). O CRUD completo de veículos é a primeira funcionalidade persistente priorizada.
+## Limitações importantes
 
-### CRM
-Registro de clientes e leads, interesse de compra, histórico de contatos, etapa do funil e próximo acompanhamento.
+Não há login seguro, upload em servidor, pagamentos, emissão fiscal, boleto real ou consulta oficial implementados neste repositório. O protótipo HTML não deve ser confundido com ambiente de produção.
 
-### Vendas
-Propostas vinculadas a veículo e cliente, valores negociados, status e finalização comercial. A conclusão de venda deve atualizar a disponibilidade do veículo.
-
-### Financiamentos
-Acompanhamento interno da forma de pagamento e do status da proposta. **Não** inclui integração bancária, análise de crédito ou aprovação automatizada.
-
-### Relatórios e administração
-Indicadores de desempenho e, futuramente, métricas gerenciais com proteção por perfil. Custos, margens e comissões exigem dados e regras de cálculo definidos antes de qualquer resultado real.
-
-## Limites atuais
-
-- Os formulários, números e imagens apresentados são **protótipos**, não execução real do produto.
-- O desenvolvimento deve priorizar autenticação, navegação, um CRUD persistente e tratamento de erros antes de indicadores avançados.
-- Integrações com instituições financeiras, contratos eletrônicos e assinatura digital não estão confirmadas no escopo.
-
-Veja o [roadmap](roadmap.md), os [protótipos](prototipos.md) e a [arquitetura](arquitetura.md).
+Consulte [arquitetura](arquitetura.md), [dados](modelo-de-dados.md) e [roadmap](roadmap.md).
