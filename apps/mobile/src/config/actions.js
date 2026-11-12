@@ -1,0 +1,58 @@
+export const actions = [
+  {
+    id: 'post',
+    domain: 'Publicar',
+    title: 'Criar publicação',
+    icon: 'create-outline',
+    ready: false,
+  },
+  {
+    id: 'vehicle',
+    domain: 'Anunciar',
+    title: 'Anunciar veículo',
+    icon: 'car-outline',
+    route: '/ad/new?kind=vehicles',
+    ready: true,
+    auth: true,
+  },
+  {
+    id: 'part',
+    domain: 'Anunciar',
+    title: 'Anunciar peça ou acessório',
+    icon: 'cube-outline',
+    route: '/ad/new?kind=parts',
+    ready: true,
+    auth: true,
+  },
+  {
+    id: 'stock',
+    domain: 'Gestão',
+    title: 'Cadastrar no estoque',
+    icon: 'business-outline',
+    route: '/vehicles',
+    ready: true,
+    auth: true,
+  },
+  {
+    id: 'client',
+    domain: 'Gestão',
+    title: 'Novo cliente',
+    icon: 'person-add-outline',
+    ready: false,
+    requiresCommercial: true,
+    route: '/management/clients',
+    auth: true,
+  },
+  {
+    id: 'proposal',
+    domain: 'Gestão',
+    title: 'Nova proposta',
+    icon: 'document-text-outline',
+    ready: false,
+    requiresCommercial: true,
+    route: '/management/proposals',
+    auth: true,
+  },
+];
+export const actionDestination = (action, signedIn) =>
+  action.auth && !signedIn ? '/login' : action.route;

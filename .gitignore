@@ -45,3 +45,10 @@ xcuserdata/
 *.bak
 
 # Não ignorar código-fonte, lockfiles ou configurações necessárias do projeto.
+
+# Proteções adicionais da publicação do ZIP
+test-results/
+playwright-report/
+local.properties
+*.apk
+*.aab
