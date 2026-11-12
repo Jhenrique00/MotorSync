@@ -1,4 +1,6 @@
-# Publicação sujeita a aprovação
+# Plano e resultado da publicação
+
+Atualização de 12/11/2026: publicação autorizada pelo usuário e realizada em main, commit 0a51193. Issues #5–#16 atualizadas; #17–#20 criadas. Nenhuma funcionalidade alterada. Project existente https://github.com/users/Jhenrique00/projects/1 continua sem alterações porque a autenticação disponível não permite acesso de edição a Projects. O restante deste documento preserva o plano revisado antes da publicação. Veja validacao-publicacao.md para resultados executados.
 
 Fonte exclusiva: outputs/MotorSync.zip, de 08/11/2026. Sem .git. Preparação em cópia isolada; nenhum arquivo funcional alterado.
 
