@@ -1,3 +1,5 @@
+import { isUuid } from './identifiers.js';
+
 export const proposalLabels = {
   draft: 'Rascunho',
   sent: 'Enviada',
@@ -29,8 +31,7 @@ export const proposalTransitions = {
   completed: [],
 };
 export function commercialId(value) {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value || ''))
-    throw new Error('Selecione um registro válido.');
+  if (!isUuid(value)) throw new Error('Selecione um registro válido.');
   return value;
 }
 export function validateCustomer(values) {

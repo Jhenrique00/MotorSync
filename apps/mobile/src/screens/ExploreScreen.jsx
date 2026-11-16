@@ -8,14 +8,19 @@ import { SelectField } from '../components/SelectField';
 import { MarketCard } from '../components/MarketCard';
 import { RecentListings } from '../components/RecentListings';
 import { useExplore } from '../hooks/useExplore';
-import { useDemo } from '../contexts/DemoContext';
+import { useListingFavorites } from '../contexts/ListingFavoritesContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { categoryPath } from '../data/taxonomy';
 import { moneyWithCents } from '../utils/catalog';
 import { PAGE_SIZE, adaptSelection } from '../services/exploreApi';
 const empty = { category: '', subcategory: '', filters: {} };
 export default function ExploreScreen() {
-  const { state } = useDemo();
+  const favorites = useListingFavorites();
+  useFocusEffect(
+    React.useCallback(() => {
+      favorites.reload();
+    }, [favorites.reload]),
+  );
   const listRef = useRef(null);
   const [query, setQuery] = useState(''),
     [selection, setSelection] = useState(empty),
@@ -26,7 +31,7 @@ export default function ExploreScreen() {
     [favoritesOnly, setFavorites] = useState(false),
     [page, setPage] = useState(0);
   const remote = useExplore(
-    { ...selection, query, sort, favoritesOnly, favorites: state.favorites },
+    { ...selection, query, sort, favoritesOnly, favorites: favorites.ids },
     page,
   );
   useEffect(() => {
@@ -56,9 +61,9 @@ export default function ExploreScreen() {
         contentContainerStyle={styles.page}
         keyboardShouldPersistTaps="handled"
         renderItem={({ item }) => <MarketCard item={item} />}
-        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         ListHeaderComponent={
-          <View style={{ gap: 10, paddingBottom: 12 }}>
+          <View style={{ gap: 12, paddingBottom: 12 }}>
             <Header
               title="Explorar"
               kicker="MARKETPLACE"
@@ -66,6 +71,8 @@ export default function ExploreScreen() {
             />
             <Field
               label="Pesquisar anúncios"
+              hideLabel
+              icon="search"
               placeholder="Produto, marca ou cidade"
               maxLength={150}
               value={query}
@@ -78,6 +85,7 @@ export default function ExploreScreen() {
               <Button
                 title="Categorias"
                 icon="grid-outline"
+                variant="secondary"
                 style={{ flex: 1 }}
                 onPress={() => setPanel('categories')}
               />
@@ -119,6 +127,8 @@ export default function ExploreScreen() {
                 }}
               />
             </View>
+            {favorites.loading && favoritesOnly && <Copy>Carregando sua lista privada…</Copy>}
+            {!!favorites.error && favoritesOnly && <Notice error>{favorites.error}</Notice>}
             {!query &&
               !selection.category &&
               !filtersCount &&

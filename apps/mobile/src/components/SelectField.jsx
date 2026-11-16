@@ -9,7 +9,7 @@ export function SelectField({ label, value, options, onChange, allowEmpty = true
   const entries = options.map((o) => (typeof o === 'string' ? { id: o, title: o } : o));
   return (
     <View style={{ gap: 6 }}>
-      <Copy size={14} weight="600">
+      <Copy size={13} weight="500" tone="muted">
         {label}
       </Copy>
       <Button
@@ -24,7 +24,7 @@ export function SelectField({ label, value, options, onChange, allowEmpty = true
         onRequestClose={() => setOpen(false)}
       >
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, padding: 16 }}>
-          <Copy size={22} weight="700">
+          <Copy display size={26} weight="700">
             {label}
           </Copy>
           <ScrollView contentContainerStyle={{ gap: 8, paddingVertical: 16 }}>

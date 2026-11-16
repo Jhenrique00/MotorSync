@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Card, Copy, Icon, IconButton, styles } from './ui';
 import { ListingPhoto } from './ListingPhoto';
 import { moneyWithCents } from '../utils/catalog';
-import { useDemo } from '../contexts/DemoContext';
+import { useListingFavorites } from '../contexts/ListingFavoritesContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { categoryPath } from '../data/taxonomy';
 export function MarketCard({ item, editable = false }) {
   const router = useRouter();
   const { colors } = useTheme();
-  const { state, dispatch } = useDemo();
-  const saved = state.favorites.includes(item.id);
+  const favorites = useListingFavorites();
+  const [favoriteError, setFavoriteError] = useState('');
+  const saved = favorites.ids.includes(item.id);
+  const toggleFavorite = async () => {
+    if (favorites.busyIds.has(item.id)) return;
+    setFavoriteError('');
+    try {
+      await favorites.toggle(item.id);
+    } catch (error) {
+      setFavoriteError(
+        error?.message === 'Entre na sua conta para salvar anúncios.'
+          ? error.message
+          : 'Não foi possível salvar o favorito. Tente novamente.',
+      );
+    }
+  };
   const open = () => router.push(`/ad/${item.id}${editable ? '?edit=1' : ''}`);
   const specs = [
     item.attributes?.year,
@@ -29,28 +43,37 @@ export function MarketCard({ item, editable = false }) {
           <ListingPhoto
             path={item.photo_paths?.[0]}
             label={item.title}
-            style={{ aspectRatio: 1.65 }}
+            style={{ aspectRatio: 1.45 }}
           />
         </Pressable>
-        <IconButton
-          name={saved ? 'heart' : 'heart-outline'}
-          label={`Favoritar ${item.title}`}
-          selected={saved}
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: 12,
-            backgroundColor: colors.surface,
-            borderRadius: 24,
-          }}
-          onPress={() => dispatch({ type: 'favorites', id: item.id })}
-        />
+        {!editable && (
+          <IconButton
+            name={saved ? 'heart' : 'heart-outline'}
+            label={saved ? `Remover ${item.title} dos favoritos` : `Favoritar ${item.title}`}
+            selected={saved}
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: 12,
+              backgroundColor: colors.surface,
+              borderRadius: 24,
+              minWidth: 44,
+              minHeight: 44,
+            }}
+            onPress={toggleFavorite}
+          />
+        )}
       </View>
-      <View style={{ padding: 16, gap: 8 }}>
-        <Copy size={13} tone="accentText" weight="600">
-          {categoryPath(item.category, item.subcategory)}
+      <View style={{ padding: 16, gap: 6 }}>
+        {!!favoriteError && (
+          <Copy size={12} tone="danger">
+            {favoriteError}
+          </Copy>
+        )}
+        <Copy size={11} tone="accentText" weight="600" style={{ letterSpacing: 1 }}>
+          {categoryPath(item.category, item.subcategory).toUpperCase()}
         </Copy>
-        <Copy size={18} weight="700">
+        <Copy size={18} weight="600">
           {item.title}
         </Copy>
         {!!specs.length && (
@@ -58,11 +81,14 @@ export function MarketCard({ item, editable = false }) {
             {specs.join(' · ')}
           </Copy>
         )}
-        <Copy size={26} weight="700" style={{ letterSpacing: -0.6 }}>
+        <Copy size={24} weight="700" style={{ letterSpacing: -0.6, marginTop: 2 }}>
           {moneyWithCents(item.price)}
         </Copy>
         <View
-          style={[styles.row, { paddingTop: 8, borderTopWidth: 1, borderColor: colors.border }]}
+          style={[
+            styles.row,
+            { paddingTop: 6, marginTop: 6, borderTopWidth: 0.75, borderColor: colors.border },
+          ]}
         >
           <View style={{ flexDirection: 'row', gap: 6, flex: 1, alignItems: 'center' }}>
             <Icon name="location-outline" size={16} color={colors.muted} />
