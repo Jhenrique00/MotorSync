@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Copy, Field, Button, Notice } from './ui';
 import { SelectField } from './SelectField';
+import { MonthlyFinancialChart } from './MonthlyFinancialChart';
 import { commercialApi } from '../hooks/useCommercial';
 import { moneyWithCents } from '../utils/catalog';
 import { commercialResults, saleResult, saleDay } from '../utils/commercialResults';
@@ -30,10 +31,6 @@ export function CommercialResultsPanel({ remote }) {
   const totals = commercialResults(rows);
   return (
     <>
-      <Field label="Pesquisar vendas" value={query} onChangeText={setQuery} />
-      <Field label="De (AAAA-MM-DD)" value={from} onChangeText={setFrom} />
-      <Field label="Até (AAAA-MM-DD)" value={to} onChangeText={setTo} />
-      {invalid && <Notice error>Informe um período válido.</Notice>}
       <Card>
         <Copy weight="700">{totals.count} vendas concluídas</Copy>
         <Copy>Valor vendido: {moneyWithCents(totals.revenue)}</Copy>
@@ -58,6 +55,12 @@ export function CommercialResultsPanel({ remote }) {
           <Notice error>{totals.invalid} vendas com valor inválido, excluídas dos cálculos.</Notice>
         )}
       </Card>
+      {!invalid && <MonthlyFinancialChart sales={rows} endDate={to} />}
+      <Copy weight="700">Filtrar vendas e histórico</Copy>
+      <Field label="Pesquisar vendas" value={query} onChangeText={setQuery} />
+      <Field label="De (AAAA-MM-DD)" value={from} onChangeText={setFrom} />
+      <Field label="Até (AAAA-MM-DD)" value={to} onChangeText={setTo} />
+      {invalid && <Notice error>Informe um período válido.</Notice>}
       {remote.personalReady && !form && (
         <Button
           title="Registrar venda direta"

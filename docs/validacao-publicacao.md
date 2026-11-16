@@ -27,3 +27,15 @@
 - Preservação do conteúdo remoto exige comparação final com HEAD atualizado antes de qualquer publicação aprovada. Conflitos deverão ser apresentados ao proprietário.
 
 O registro acima descreve a preparação anterior à aprovação; os resultados atuais estão na seção inicial deste documento.
+
+## Consolidação Editorial Preto — 16/11/2026 (branch de revisão)
+
+A versão de referência é MOTORSYNC_EDITORIAL_PRETO_11-11.zip. A consolidação preserva os arquivos exclusivos da main, autenticação, recuperação de senha, acesso público à Home, retorno ao Perfil após login e os módulos financeiros. Não houve alteração no banco remoto.
+
+A interface utiliza Inter e Playfair Display, preto/branco/cinza/laranja. Home social e favoritos privados possuem serviços persistentes incorporados do ZIP; funcionamento remoto depende das tabelas, bucket e RLS correspondentes. O estado anterior de Home apenas demonstrativa descreve a versão anterior: o código atual tenta integração real e sinaliza indisponibilidade. Não houve comprovação no Android ou Supabase nesta tarefa.
+
+Os dois testes antes ausentes (finance-ui.cjs e explore-live.cjs) agora vieram no ZIP. Presença não equivale a teste aprovado. O gráfico mensal acrescenta visualização de vendas com custos conhecidos, mantendo os cálculos comerciais originais e react-native-chart-kit para os gráficos anteriores. Financeiro completo continua sem validação operacional.
+
+Windows: configure apps/mobile/.env a partir de .env.example e execute INICIAR_MOTORSYNC.cmd ou INICIAR_TUNEL.cmd. Ambos verificam Node/npm e executam scripts/ensure-dependencies.cjs, que confere todas as dependências (incluindo as fontes) e o fingerprint de package.json/package-lock.json; se necessário executa npm ci. Não instala o Node automaticamente.
+
+Consulte docs/consolidacao-editorial.md para resultados e limitações desta revisão. Nenhuma migração deve ser aplicada automaticamente.

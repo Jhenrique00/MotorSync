@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../contexts/AuthContext';
+import { useListingFavorites } from '../contexts/ListingFavoritesContext';
 import { supabase } from '../services/supabase';
 import { listingApi } from '../services/listingApi';
 import { photoPrefix } from '../data/listingRules';
@@ -33,6 +34,7 @@ export default function AdScreen() {
   const isNew = id === 'new';
   const router = useRouter();
   const { session } = useAuth();
+  const favorites = useListingFavorites();
   const [values, setValues] = useState({
       ...initial,
       category: params.kind || 'vehicles',
@@ -237,12 +239,12 @@ export default function AdScreen() {
           <ListingPhoto
             path={values.photo_paths[0]}
             label={values.title}
-            style={{ height: 240, borderRadius: 16 }}
+            style={{ height: 240, borderRadius: 20 }}
           />
-          <Copy size={24} weight="700">
+          <Copy display size={30} weight="700">
             {values.title}
           </Copy>
-          <Copy size={24} weight="700">
+          <Copy size={26} weight="700" tone="accentText">
             {moneyWithCents(values.price)}
           </Copy>
           <Copy>{values.location}</Copy>
@@ -252,6 +254,26 @@ export default function AdScreen() {
               {attributes[k]?.label || k}: {v}
             </Copy>
           ))}
+          {values.publication_status === 'published' && (
+            <Button
+              title={favorites.ids.includes(id) ? 'Remover dos favoritos' : 'Salvar nos favoritos'}
+              variant="secondary"
+              icon={favorites.ids.includes(id) ? 'heart' : 'heart-outline'}
+              disabled={favorites.loading || favorites.busyIds.has(id)}
+              onPress={async () => {
+                setError('');
+                try {
+                  await favorites.toggle(id);
+                } catch (failure) {
+                  setError(
+                    failure?.message === 'Entre na sua conta para salvar anúncios.'
+                      ? failure.message
+                      : 'Não foi possível sincronizar o favorito.',
+                  );
+                }
+              }}
+            />
+          )}
           {mayEdit && <Button title="Editar anúncio" onPress={() => setEditing(true)} />}
           {!mayEdit && <MarketplaceOffer listing={values} />}
         </>

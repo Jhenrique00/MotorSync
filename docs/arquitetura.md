@@ -1,68 +1,11 @@
-# Arquitetura proposta — MotorSync
+# Arquitetura atual do MotorSync
 
-> **Planejamento técnico, não implementação existente.** O repositório ainda não possui código React Native/Expo nem infraestrutura Supabase configurada.
+React Native 0.86.3, Expo SDK 57, JavaScript/JSX e Expo Router. Rotas em apps/mobile/app, telas e componentes em src. Contextos mantêm autenticação, tema, demonstração e favoritos privados; hooks coordenam serviços Supabase.
 
-## Arquitetura-alvo
+As cinco posições são Home, Explorar, (+), Gestão e Perfil. Inter é usada nos textos/indicadores e Playfair Display nos títulos. O backend é Supabase/PostgreSQL com Auth, Storage e RLS. Nenhum MySQL está integrado.
 
-```mermaid
-flowchart LR
-    A[MotorSync mobile<br/>React Native + Expo + TypeScript]
-    B[Autenticação e serviços<br/>Supabase / API segura]
-    C[(PostgreSQL<br/>RLS)]
-    D[(Storage<br/>fotos e vídeos)]
-    E[Funções seguras<br/>transações e integrações]
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-```
+Serviços de autenticação, sessão, estoque, clientes/propostas/vendas e cálculos comerciais originais foram preservados na consolidação. Serviços sociais e favoritos do ZIP usam o mesmo cliente Supabase e identidade autenticada. Eles requerem schema compatível no servidor; SQL incluso é referência, sem execução autorizada nesta tarefa.
 
-Supabase é a opção preferencial para avaliação; a decisão definitiva depende de requisitos, custos e segurança. O aplicativo não deve conter chaves secretas nem executar regras críticas exclusivamente no dispositivo.
+Os módulos financeiros anteriores permanecem, inclusive componentes sem rota ativa. Manter arquivo não significa disponibilizar novo módulo; a rota /finance continua apontando à tela comercial, como na main anterior. A Home permite acesso público e ações privadas requerem sessão.
 
-## Organização sugerida
-
-```text
-apps/mobile/
-  src/app/               # rotas Expo Router
-  src/components/        # UI reutilizável
-  src/features/          # home, explorar, criação, gestão, perfil
-  src/services/          # autenticação e chamadas de backend
-  src/theme/             # tokens visuais
-  src/types/
-supabase/
-  migrations/
-  functions/
-docs/
-```
-
-## Responsabilidades
-
-| Camada | Responsabilidade |
-| --- | --- |
-| Mobile | UI, navegação, validação básica, prévia de mídia, acessibilidade |
-| Backend | autenticação, políticas de acesso, upload, transações, integrações e auditoria |
-| PostgreSQL | relações, restrições, índices e isolamento entre organizações |
-| Storage | persistência e controle de acesso de fotos e vídeos |
-
-## Transações comerciais
-
-1. Criar anúncio vinculado ao proprietário e, opcionalmente, a uma organização.
-2. Criar proposta com comprador, anunciante e anúncio validado.
-3. Aceitar proposta com verificação concorrente do status e reserva do veículo.
-4. Concluir venda sem duplicidade; atualizar disponibilidade e histórico no mesmo fluxo consistente.
-5. Impedir remoção de registros vinculados a vendas ou propostas aceitas sem fluxo autorizado.
-
-## Segurança e privacidade
-
-- RLS por usuário, organização e papel.
-- Validação no servidor para custos, propostas, reservas e vendas.
-- Não confiar em controles meramente visuais.
-- Credenciais fora do Git; somente `.env.example` pode ser versionado.
-- Tratar dados pessoais segundo requisitos legais aplicáveis.
-- Mídia com fallback, estados de falha e política de retenção.
-
-## Migração do protótipo
-
-O HTML atual é **referência de interface e comportamento**. Não deve ser incorporado como uma WebView única na versão de produção. Componentes e regras devem ser reconstruídos e testados em React Native.
-
-Veja [modelo de dados](modelo-de-dados.md) e [roadmap](roadmap.md).
+Ver consolidacao-editorial.md para evidências, limitações e decisões de compatibilidade. Referências a NandoSync em commits antigos são históricas.
