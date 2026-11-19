@@ -19,6 +19,8 @@
     "test:live:explore": "node tests/explore-live.cjs"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/playfair-display": "^0.4.2",
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "2.118.0",
@@ -35,7 +37,6 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
-    "react-native-chart-kit": "7.0.4",
     "react-native-reanimated": "4.5.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",

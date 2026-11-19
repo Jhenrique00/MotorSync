@@ -56,6 +56,7 @@ export default function ProfileScreen() {
     try {
       await signOut();
       setMessage('Sessão encerrada.');
+      router.replace('/login');
     } catch {
       setMessage('Não foi possível encerrar a sessão. Tente novamente.');
     } finally {
@@ -66,13 +67,13 @@ export default function ProfileScreen() {
     <Screen>
       <Header title="Perfil" kicker="SEU ESPAÇO" />
       <View
-        style={{ gap: 16, paddingBottom: 24, borderBottomWidth: 1, borderColor: colors.border }}
+        style={{ gap: 14, paddingBottom: 24, borderBottomWidth: 0.75, borderColor: colors.border }}
       >
         <View
           style={{
-            width: 64,
-            height: 64,
-            borderRadius: 22,
+            width: 72,
+            height: 72,
+            borderRadius: 36,
             backgroundColor: colors.accentSoft,
             alignItems: 'center',
             justifyContent: 'center',
@@ -86,7 +87,7 @@ export default function ProfileScreen() {
             <Icon name="person-outline" size={28} color={colors.accentText} />
           )}
         </View>
-        <Copy weight="700" size={26}>
+        <Copy display weight="700" size={28}>
           {name || (session ? 'Sua conta' : 'Bem-vindo ao MotorSync')}
         </Copy>
         <Copy tone="muted" size={14}>
@@ -135,7 +136,7 @@ export default function ProfileScreen() {
         />
         <RowLink
           title="Favoritos e publicações salvas"
-          subtitle={`${state.favorites.length} anúncios · ${state.saved.length} publicações`}
+          subtitle="Consulte seus anúncios favoritos e publicações salvas"
           icon="bookmark-outline"
           onPress={() => router.push('/saved')}
         />
@@ -176,15 +177,19 @@ export default function ProfileScreen() {
       </Section>
       <Section title="Sobre esta versão">
         <Copy size={13} tone="muted">
-          O feed e suas interações sociais são exemplos locais. Curtidas, comentários e favoritos
-          ficam nesta sessão. Conta, anúncios e estoque usam o servidor. O fluxo comercial depende
-          da atualização autorizada do banco; o Financeiro permanece pendente.
+          Conta, anúncios e Gestão utilizam Supabase. O feed social usa dados reais quando a
+          migração social estiver ativa; caso contrário, mostra apenas exemplos locais sinalizados.
+          Favoritos de anúncios reais e publicações sociais são privados e salvos na sua conta.
+          Itens de demonstração continuam locais. O Financeiro depende das vendas registradas.
         </Copy>
         {confirmReset ? (
           <Card>
-            <Copy>Limpar curtidas, comentários e favoritos desta sessão?</Copy>
+            <Copy>
+              Limpar somente os itens de demonstração deste aparelho? Seus favoritos salvos na conta
+              não serão apagados.
+            </Copy>
             <Button
-              title="Confirmar limpeza"
+              title="Limpar demonstração local"
               onPress={() => {
                 dispatch({ type: 'reset' });
                 setConfirmReset(false);

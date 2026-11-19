@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { createExploreApi, adaptSelection } = require('../src/services/exploreApi.js');
-const { periodRange, validateEntry, createFinanceApi } = require('../src/services/financeApi.js');
+const { periodRange, validateEntry, createFinanceApi } = require('./legacy/financeApi.js');
 function mock() {
   const calls = [];
   const q = {
@@ -143,7 +143,7 @@ test('finance save binds owner to verified user and rejects changed identity', a
   await assert.rejects(() => api.save(base, null, 'manual-456', 'another'), /conta mudou/);
 });
 test('chart timeline preserves elapsed days and leaves wholly empty periods empty', () => {
-  const { financialSeries } = require('../src/services/financeApi.js');
+  const { financialSeries } = require('./legacy/financeApi.js');
   assert.deepEqual(financialSeries([], '2026-01-01', '2026-01-03'), []);
   const rows = financialSeries(
     [{ day: '2026-01-02', revenue: 10, cost: 0, income: 0, expenses: 0, missing_cost: 0 }],

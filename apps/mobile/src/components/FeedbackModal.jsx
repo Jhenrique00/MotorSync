@@ -33,7 +33,7 @@ export function FeedbackModal({ value, onConfirm }) {
                 size={32}
                 color={value?.error ? colors.danger : colors.success}
               />
-              <Copy accessibilityRole="header" size={20} weight="700">
+              <Copy accessibilityRole="header" display size={22} weight="700">
                 {value?.title || 'Aviso'}
               </Copy>
               <Copy>{value?.message}</Copy>

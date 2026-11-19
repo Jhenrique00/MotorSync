@@ -30,12 +30,12 @@ export default function ListingScreen() {
           <Media
             uri={item.image}
             label={`${item.title} · foto ilustrativa`}
-            style={{ height: 280, borderRadius: 18 }}
+            style={{ height: 280, borderRadius: 22 }}
           />
-          <Copy size={28} weight="700">
+          <Copy display size={30} weight="700">
             {item.title}
           </Copy>
-          <Copy size={28} weight="700">
+          <Copy size={26} weight="700" tone="accentText">
             {money(item.price)}
           </Copy>
           <Copy tone="muted">

@@ -1,56 +1,53 @@
-# Roadmap do MotorSync
+# Roadmap do MotorSync — estado em 18/11/2026
 
-Este documento descreve **prioridades**, não datas prometidas. O código mobile e o backend ainda não estão versionados neste repositório. As Issues antigas de NandoSync representam histórico do escopo anterior e devem ser reavaliadas.
+Este roadmap separa implementação encontrada no ZIP, validação pendente e funcionalidades futuras. Não trate tela ou serviço no código como prova de homologação em dispositivo ou backend remoto.
 
-## Estado atual
+## Estado atual do snapshot editorial
 
-- [x] Identidade e conceito MotorSync definidos.
-- [x] Navegação e fluxos explorados em protótipo HTML externo.
-- [x] Módulos de comunidade, marketplace e Gestão mapeados.
-- [ ] Código React Native e Expo real versionado.
-- [ ] Autenticação segura e banco persistente.
-- [ ] Deploy, CI e testes em aparelhos físicos.
+- [x] Conceito MotorSync: comunidade automotiva, marketplace e gestão.
+- [x] Aplicativo React Native/Expo com Expo Router e JavaScript/JSX.
+- [x] Navegação inferior em cinco posições.
+- [x] Tema claro/escuro, tokens visuais, identidade e tipografia.
+- [x] Integração de cliente Supabase Auth/PostgreSQL/Storage no código.
+- [x] Código de Home social, Explorar, estoque e gestão comercial.
+- [x] 100 testes Node aprovados no ZIP em 18/11/2026.
+- [x] Código e migrações do ZIP editorial importados na branch do PR #22.
+- [ ] Revisar e integrar o PR à `main`.
+- [ ] Homologação ponta a ponta no Android físico ou emulador.
+- [ ] Confirmação remota da migração de favoritos privados.
+- [ ] Atualização e uso regular do GitHub Projects.
 
-## Fase 1 — Fundação
+## Prioridade imediata — entrega acadêmica Fase 2
 
-- [ ] Auditar HTML de referência e estabelecer inventário de funcionalidades.
-- [ ] Inicializar React Native + Expo Router + TypeScript.
-- [ ] Estabelecer design system, tema claro/escuro e navegação.
-- [ ] Definir backend e preparar migrações, RLS, ambientes e autenticação.
-- [ ] Configurar testes, lint e CI.
+1. Revisar a atualização do código no PR #22.
+2. Executar login e CRUD completo (preferencialmente Clientes) no Android.
+3. Comprovar persistência após reiniciar o aplicativo.
+4. Validar erros, rede indisponível, validações e isolamento por usuário.
+5. Validar Home social e marketplace sem afirmar como homologado o que ainda não foi testado.
+6. Atualizar GitHub Projects com tarefas e estados apoiados por evidência.
+7. Preparar vídeo de até 10 minutos e enviar links pelo AVA.
 
-## Fase 2 — Comunidade funcional
+## Próximas etapas do produto
 
-- [ ] Usuários reais, perfis e sessão.
-- [ ] Upload e armazenamento persistente de fotos/vídeos.
-- [ ] Feed, comentários, curtidas, favoritos, seguir criadores e estados de erro.
+### Comunidade
+- Persistência e homologação de publicação, mídia, curtidas, comentários, respostas e posts salvos.
+- Seguir perfis com persistência.
+- Vídeo, notificações e moderação em etapas posteriores.
 
-## Fase 3 — Marketplace funcional
+### Marketplace
+- Homologar cadastro, edição, filtros, fotos e favoritos entre contas.
+- Propostas e comunicação comprador-vendedor.
+- Ampliar categorias de veículos, peças e acessórios com dados consistentes.
 
-- [ ] Publicar anúncios de veículos e peças, com propriedade verificada.
-- [ ] Pesquisa, filtros, categorias e comparação.
-- [ ] Favoritos, detalhes, propostas e comunicação com o anunciante.
+### Gestão
+- Homologar Estoque, Clientes, Propostas e Vendas.
+- Validar permissões pessoais e por organização.
+- Preservar transações, prevenção de venda duplicada e separação entre faturamento e lucro.
 
-## Fase 4 — Gestão conectada
+### Complementos
+- Ordens de serviço, contratos, documentos, tarefas, relatórios e integrações futuras somente após validar fornecedores e requisitos.
+- Não declarar FIPE, DETRAN/Senatran, serviços financeiros, assinatura eletrônica ou emissão fiscal como integrados sem prova técnica.
 
-- [ ] Estoque, Clientes, Propostas e Vendas conectados a anúncios reais.
-- [ ] Permissões de vendedor, gerente e administrador.
-- [ ] Regras transacionais de reserva, venda e histórico.
-- [ ] Indicadores financeiros corretos e pendências acionáveis.
+## Definição de pronto para a entrega acadêmica
 
-## Fase 5 — Módulos complementares e lançamento
-
-- [ ] Financeiro, ordens de serviço, contratos, documentos, tarefas, relatórios.
-- [ ] Testes de segurança, desempenho, privacidade e acessibilidade.
-- [ ] Builds Android/iOS e testes em dispositivos.
-- [ ] Estudar integrações oficiais e serviços regulados com fornecedores autorizados.
-
-## Definição de pronto para o MVP
-
-- Login e sessões reais, acesso por perfil seguro.
-- Anúncios e publicações persistentes entre dispositivos.
-- Propostas no marketplace vinculadas ao CRM.
-- Venda e reserva consistentes mesmo com uso concorrente.
-- Fluxos testados e documentação de instalação reproduzível.
-
-Não anunciar FIPE, DETRAN/Senatran, boletos ou NFS-e como integrados até existirem testes com serviços reais.
+Login/cadastro, múltiplas telas, CRUD persistente completo, validação, tratamento de erros e demonstração em dispositivo físico ou emulador, com README e vídeo conforme o regulamento institucional.

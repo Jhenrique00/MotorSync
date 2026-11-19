@@ -11,7 +11,7 @@ export function RecentListings({ rows }) {
   if (!rows.length) return null;
   return (
     <View style={{ gap: 8 }}>
-      <Copy weight="700" size={20}>
+      <Copy display weight="600" size={22}>
         Acabaram de chegar
       </Copy>
       <ScrollView
@@ -27,8 +27,8 @@ export function RecentListings({ rows }) {
             onPress={() => router.push(`/ad/${item.id}`)}
             style={{
               width: 208,
-              borderRadius: 14,
-              borderWidth: 1,
+              borderRadius: 18,
+              borderWidth: 0.75,
               borderColor: colors.border,
               overflow: 'hidden',
               backgroundColor: colors.surface,
@@ -39,7 +39,7 @@ export function RecentListings({ rows }) {
               <Copy size={14} numberOfLines={2}>
                 {item.title}
               </Copy>
-              <Copy size={14} weight="700">
+              <Copy size={15} weight="700">
                 {moneyWithCents(item.price)}
               </Copy>
             </View>

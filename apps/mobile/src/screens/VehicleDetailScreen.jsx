@@ -23,7 +23,7 @@ export default function VehicleDetailScreen() {
         </>
       ) : data ? (
         <Card>
-          <Copy weight="700" size={28}>
+          <Copy display weight="700" size={30}>
             {data.title}
           </Copy>
           <Copy size={24}>{moneyWithCents(data.price)}</Copy>

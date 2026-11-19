@@ -2,9 +2,9 @@
 
 ## Produto
 
-O **MotorSync** une **comunidade automotiva**, **marketplace de veículos/peças** e **gestão empresarial (ERP/CRM)** no mesmo produto mobile. Ele não pertence a uma loja específica: conecta pessoas físicas, criadores, vendedores, oficinas, revendas, concessionárias e empresas de autopeças.
+O **MotorSync** é um ecossistema mobile automotivo que integra **comunidade/rede social**, **marketplace de veículos, peças e acessórios** e **gestão empresarial ERP/CRM**. Conecta pessoas físicas, criadores, vendedores, oficinas, revendas, concessionárias e empresas de autopeças.
 
-**Estado:** existe um protótipo HTML interativo desenvolvido separadamente, com simulações e dados locais. Este repositório ainda contém documentação; não há aplicativo mobile de produção, servidor ou banco de dados real versionados aqui.
+O snapshot editorial analisado em 18/11/2026 contém aplicativo React Native com Expo Router, JavaScript/JSX e integração de serviços Supabase. A existência do código não significa que todos os fluxos foram homologados no Android ou que todas as migrações estão aplicadas no banco remoto.
 
 ## Problemas que resolve
 
@@ -14,27 +14,35 @@ O **MotorSync** une **comunidade automotiva**, **marketplace de veículos/peças
 
 ## Experiência do usuário
 
-- **Home:** feed social de fotos/vídeos/texto, criadores, curtidas, comentários, favoritos e descrição expansível; conteúdos podem apontar a anúncios.
-- **Explorar:** categorias expansíveis **Automóveis** e **Autopeças**, anúncios em destaque, popularidade identificada com transparência, listagem comum, filtros e comparação.
-- **Criar (+):** foto, vídeo, texto ou anúncio, com validações e pré-visualização.
-- **Gestão:** visão geral, pendências acionáveis, Estoque, Clientes, Propostas e Vendas como acessos principais; demais módulos agrupados.
-- **Perfil:** conta pessoal, publicações, anúncios, favoritos, preferências e contexto empresarial.
+- **Home:** feed de publicações automotivas, fotos, autoria, curtidas, comentários, respostas e posts salvos; posts podem ter vínculo com anúncios.
+- **Explorar:** marketplace de veículos e peças, categorias, anúncios, pesquisa, filtros, detalhes e vendedores.
+- **Criar (+):** ponto de entrada para criar publicação, anúncio ou item de estoque.
+- **Gestão:** visão geral e acessos principais a Estoque, Clientes e Propostas; fluxo de Vendas e resultados comerciais/financeiros.
+- **Perfil:** conta, publicações, anúncios, coleção/favoritos e preferências.
+
+## Navegação principal
+
+Cinco posições fixas: **Home · Explorar · Criar (+) · Gestão · Perfil**.
 
 ## Públicos e permissões
 
-- **Pessoa física:** conteúdo, anúncios e negociações próprias.
+- **Pessoa física:** conteúdo, anúncios e gestão pessoal.
 - **Pessoa jurídica:** organização com anúncios e operação empresarial.
 - **Vendedor:** acesso comercial autorizado por organização.
-- **Gerente/administrador:** permissões ampliadas, custos e indicadores conforme regras.
+- **Gerente/administrador:** permissões ampliadas conforme papel.
 
-No aplicativo real, acesso deverá ser verificado **no servidor e no banco**; ocultar botões na tela não basta.
+A autorização deve ser verificada no backend e no banco. Ocultar botões na interface não protege dados.
 
-## Diferencial
+## Integração entre áreas
 
-Uma publicação da Home pode levar ao anúncio no Explorar; uma proposta criada ali poderá abrir uma negociação no CRM da empresa. Esse vínculo precisa utilizar identificadores consistentes e regras transacionais.
+Uma publicação na Home pode levar a um anúncio no Explorar. Um interessado pode iniciar uma proposta que aparece na Gestão da empresa responsável. A venda concluída deve atualizar estoque, anúncio e indicadores em operação consistente, sem expor informações privadas.
 
-## Limitações importantes
+## Identidade visual
 
-Não há login seguro, upload em servidor, pagamentos, emissão fiscal, boleto real ou consulta oficial implementados neste repositório. O protótipo HTML não deve ser confundido com ambiente de produção.
+Paleta neutra preto/branco/cinza com laranja `#FF6B00`, temas claro e escuro, componentes mobile e tipografia consistente. Preservar a logo original e a navegação.
 
-Consulte [arquitetura](arquitetura.md), [dados](modelo-de-dados.md) e [roadmap](roadmap.md).
+## Limitações e estado de validação
+
+O ZIP contém integração de cliente Supabase e migrações. A migração social é descrita como aplicada na documentação do pacote, mas ainda falta homologação autenticada completa no Android. A migração de favoritos privados tem estado remoto contraditório e requer confirmação. Seguir perfis, notificações, chat e integrações oficiais/financeiras não devem ser apresentados como recursos concluídos sem implementação e testes específicos.
+
+Consulte [arquitetura](arquitetura.md), [modelo de dados](modelo-de-dados.md), [status técnico](status-2026-11-18.md) e [roadmap](roadmap.md).

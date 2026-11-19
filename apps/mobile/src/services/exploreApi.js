@@ -1,5 +1,6 @@
 import { validateFilters, numericRules } from '../data/listingRules.js';
 import { fieldsFor } from '../data/taxonomy.js';
+import { isUuid } from '../utils/identifiers.js';
 export const PAGE_SIZE = 20;
 export const missingFunction = (e) => ['PGRST202', '42883'].includes(e?.code);
 const literal = (s) =>
@@ -27,10 +28,7 @@ export function createExploreApi(client) {
     advanced = !error;
     return advanced;
   }
-  const validFavorites = (ids) =>
-    (ids || [])
-      .filter((id) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
-      .slice(0, 1000);
+  const validFavorites = (ids) => (ids || []).filter(isUuid).slice(0, 1000);
   function rest(options, select = '*', count = true) {
     const {
       category = '',
