@@ -21,7 +21,7 @@ export function StockValue() {
         </>
       ) : (
         <>
-          <Copy size={28} weight="700">
+          <Copy size={30} weight="700">
             {moneyWithCents((remote.data || []).reduce((s, r) => s + Number(r.price), 0))}
           </Copy>
           {(remote.data || []).map((r) => (

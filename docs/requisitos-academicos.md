@@ -76,7 +76,7 @@ Para cumprir a Fase 2, priorizar um fluxo que possa ser demonstrado de ponta a p
 3. Cadastrar cliente.
 4. Consultar o cliente.
 5. Editar dados.
-6. Excluir/arquivar conforme a funcionalidade implementada.
-7. Fechar e reabrir o aplicativo para demonstrar persistência real.
+6. Fechar e reabrir o aplicativo para confirmar que a edição foi persistida.
+7. Excluir um cliente de teste sem histórico comercial e confirmar que ele não reaparece. Para clientes com histórico, demonstrar o arquivamento como regra de negócio.
 
 Não apresentar testes unitários isolados, dados de demonstração ou telas estáticas como prova de persistência remota. O fluxo deve ser testado no aparelho físico ou emulador.

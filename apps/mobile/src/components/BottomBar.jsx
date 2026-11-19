@@ -4,12 +4,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Copy, Icon } from './ui';
 import { useTheme } from '../contexts/ThemeContext';
+import { hairline } from '../theme/tokens';
 const items = [
-  ['index', 'Home', 'home-outline'],
-  ['explore', 'Explorar', 'search-outline'],
-  ['create', 'Criar', 'add'],
-  ['management', 'Gestão', 'stats-chart-outline'],
-  ['profile', 'Perfil', 'person-outline'],
+  ['index', 'Home', 'home-outline', 'home'],
+  ['explore', 'Explorar', 'search-outline', 'search'],
+  ['create', 'Criar', 'add', 'add'],
+  ['management', 'Gestão', 'stats-chart-outline', 'stats-chart'],
+  ['profile', 'Perfil', 'person-outline', 'person'],
 ];
 export function BottomBar({ state, navigation }) {
   const { colors } = useTheme();
@@ -19,14 +20,14 @@ export function BottomBar({ state, navigation }) {
     <View
       style={{
         backgroundColor: colors.surface,
-        borderTopWidth: 1,
+        borderTopWidth: hairline,
         borderColor: colors.border,
         paddingBottom: Math.max(insets.bottom, 8),
-        paddingTop: 8,
+        paddingTop: 6,
         flexDirection: 'row',
       }}
     >
-      {items.map(([name, label, icon]) => {
+      {items.map(([name, label, icon, iconFilled]) => {
         const selected = state.routes[state.index].name === name;
         return (
           <Pressable
@@ -47,38 +48,41 @@ export function BottomBar({ state, navigation }) {
               });
               if (!event.defaultPrevented) navigation.navigate(name);
             }}
-            style={{
+            style={({ pressed }) => ({
               flex: 1,
               minHeight: 52,
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 4,
-            }}
+              gap: 3,
+              opacity: pressed ? 0.6 : 1,
+            })}
           >
             <View
               style={
                 name === 'create'
                   ? {
-                      width: 46,
-                      height: 46,
-                      borderRadius: 14,
+                      width: 48,
+                      height: 38,
+                      borderRadius: 13,
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: colors.accent,
+                      shadowColor: colors.accent,
+                      shadowOpacity: colors.lift.shadowOpacity ? 0.28 : 0,
+                      shadowRadius: 8,
+                      shadowOffset: { width: 0, height: 3 },
                     }
                   : {
                       minWidth: 42,
-                      minHeight: 30,
-                      borderRadius: 10,
+                      minHeight: 28,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: selected ? colors.accentSoft : 'transparent',
                     }
               }
             >
               <Icon
-                name={icon}
-                size={24}
+                name={selected && name !== 'create' ? iconFilled : icon}
+                size={name === 'create' ? 26 : 25}
                 color={
                   name === 'create' ? colors.onAccent : selected ? colors.accentText : colors.muted
                 }
@@ -86,8 +90,8 @@ export function BottomBar({ state, navigation }) {
             </View>
             {name !== 'create' && (
               <Copy
-                size={12}
-                weight={selected ? '700' : '500'}
+                size={11}
+                weight={selected ? '600' : '500'}
                 tone={selected ? 'accentText' : 'muted'}
               >
                 {label}

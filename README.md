@@ -1,14 +1,14 @@
 # MotorSync — aplicativo mobile
 
-**Atualização documental:** 18/11/2026  
+**Atualização do código:** 19/11/2026  
 **Projeto:** conclusão da disciplina Desenvolvimento Mobile  
 **Apresentação da Fase 2:** 24 ou 26/11/2026, conforme cronograma da disciplina.
 
 O MotorSync é uma plataforma mobile automotiva que conecta três áreas: **Home (comunidade/rede social)**, **Explorar (marketplace de veículos, peças e acessórios)** e **Gestão (ERP/CRM pessoal e empresarial)**.
 
-> **Importante sobre esta atualização:** esta branch registra o estado técnico do ZIP editorial recebido em 11/11/2026, atualiza os requisitos acadêmicos e corrige a documentação. Ela ainda não substitui integralmente os arquivos-fonte atualmente versionados pela cópia do ZIP. Não considere `main` idêntica ao ZIP até a sincronização do código ser concluída e revisada.
+> Esta versão incorpora o código do aplicativo do ZIP editorial de 11/11/2026. Consulte os resultados de validação e as pendências abaixo.
 
-## Stack identificada no ZIP
+## Tecnologias
 
 - React Native 0.86.3, Expo SDK 57 e Expo Router.
 - JavaScript/JSX (não TypeScript nesta versão).
@@ -50,7 +50,7 @@ Para túnel: `npm run start:tunnel`.
 
 **Nunca** versionar `.env`, `service_role`, chaves `sb_secret_*`, senha do banco ou credenciais administrativas. O `.gitignore` mantém `.env` excluído.
 
-## Estado funcional documentado no ZIP de 11/11
+## Estado funcional
 
 | Área | Estado descrito |
 | --- | --- |
@@ -77,7 +77,7 @@ A migração `20261110070000_private_listing_favorites.sql` deve ser tratada com
 
 ## Validação local registrada nesta revisão
 
-No ZIP recebido, em 18/11/2026, foi executado:
+Na cópia preparada para publicação, em 19/11/2026, foi executado:
 
 ```text
 npm test
@@ -86,7 +86,7 @@ npm test
 0 ignorados
 ```
 
-Esse resultado é da suíte Node local do ZIP. Não comprova testes reais autenticados no Supabase, execução no Android físico, upload de mídia em dispositivo ou homologação ponta a ponta. Nesta revisão não foram executados `npm run check` nem `npm run export`.
+A instalação limpa com `npm ci` passou e o Expo gerou os bundles Android, iOS e web. A checagem online das dependências excedeu o tempo de espera, mas a checagem com as informações locais do Expo passou. Esses resultados não comprovam o fluxo no aparelho nem transações autenticadas no Supabase.
 
 ## Documentação
 

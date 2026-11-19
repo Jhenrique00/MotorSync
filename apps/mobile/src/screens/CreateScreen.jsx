@@ -29,24 +29,24 @@ export default function CreateScreen() {
         style={{
           maxHeight: '88%',
           backgroundColor: colors.background,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
+          borderTopLeftRadius: 28,
+          borderTopRightRadius: 28,
           padding: 20,
           paddingBottom: Math.max(16, insets.bottom),
         }}
       >
         <View
           style={{
-            width: 36,
-            height: 4,
-            borderRadius: 2,
-            backgroundColor: colors.fieldBorder,
+            width: 38,
+            height: 5,
+            borderRadius: 3,
+            backgroundColor: colors.border,
             alignSelf: 'center',
             marginBottom: 12,
           }}
         />
         <View style={styles.row}>
-          <Copy size={22} weight="700">
+          <Copy display size={28} weight="700">
             Criar
           </Copy>
           <IconButton name="close" label="Fechar" onPress={close} />
@@ -55,9 +55,9 @@ export default function CreateScreen() {
           Venda no Explorar ou organize seu estoque pessoal ou empresarial.
         </Copy>
         <ScrollView keyboardShouldPersistTaps="handled">
-          {['Anunciar', 'Gestão'].map((domain) => (
-            <View key={domain} style={{ gap: 8, marginTop: 20 }}>
-              <Copy size={12} tone="muted" weight="700">
+          {['Publicar', 'Anunciar', 'Gestão'].map((domain) => (
+            <View key={domain} style={{ gap: 8, marginTop: 22 }}>
+              <Copy size={11} tone="muted" weight="600" style={{ letterSpacing: 1 }}>
                 {domain.toUpperCase()}
               </Copy>
               {availableActions
@@ -67,24 +67,34 @@ export default function CreateScreen() {
                     key={action.id}
                     accessibilityRole="button"
                     accessibilityLabel={action.title}
-                    onPress={() => router.replace(actionDestination(action, Boolean(session)))}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 12,
-                      minHeight: 64,
-                      padding: 12,
-                      borderRadius: 14,
-                      backgroundColor: colors.surface,
-                      borderWidth: 1,
-                      borderColor: colors.border,
-                    }}
+                    onPress={() =>
+                      router.replace(
+                        action.id === 'post' && session
+                          ? { pathname: '/', params: { compose: String(Date.now()) } }
+                          : actionDestination(action, Boolean(session)),
+                      )
+                    }
+                    style={({ pressed }) => [
+                      {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 12,
+                        minHeight: 68,
+                        padding: 12,
+                        borderRadius: 18,
+                        backgroundColor: colors.surface,
+                        borderWidth: 0.75,
+                        borderColor: colors.border,
+                        opacity: pressed ? 0.7 : 1,
+                      },
+                      colors.lift,
+                    ]}
                   >
                     <View
                       style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 12,
+                        width: 44,
+                        height: 44,
+                        borderRadius: 13,
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: colors.accentSoft,
@@ -93,27 +103,22 @@ export default function CreateScreen() {
                       <Icon name={action.icon} color={colors.accentText} />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Copy weight="600">{action.title}</Copy>
+                      <Copy weight="500">{action.title}</Copy>
                       <Copy size={12} tone="muted">
-                        {domain === 'Anunciar'
-                          ? 'Anúncio no marketplace · empresa opcional'
-                          : action.id === 'stock'
-                            ? 'Estoque privado · pessoal ou empresarial'
-                            : 'Clientes e propostas da sua gestão'}
+                        {domain === 'Publicar'
+                          ? 'Compartilhe novidades com a comunidade'
+                          : domain === 'Anunciar'
+                            ? 'Anúncio no marketplace · empresa opcional'
+                            : action.id === 'stock'
+                              ? 'Estoque privado · pessoal ou empresarial'
+                              : 'Clientes e propostas da sua gestão'}
                       </Copy>
                     </View>
-                    <Icon name="chevron-forward" size={18} />
+                    <Icon name="chevron-forward" size={16} color={colors.muted} />
                   </Pressable>
                 ))}
             </View>
           ))}
-          <View style={{ marginTop: 20, gap: 6 }}>
-            <Copy weight="600">Publicações na Home</Copy>
-            <Copy size={13} tone="muted">
-              A criação de publicações sociais ainda não está disponível.
-              {!commercial.ready && ' Clientes e propostas aguardam a ativação do serviço.'}
-            </Copy>
-          </View>
         </ScrollView>
       </View>
     </View>

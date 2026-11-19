@@ -4,7 +4,9 @@ export const actions = [
     domain: 'Publicar',
     title: 'Criar publicação',
     icon: 'create-outline',
-    ready: false,
+    route: '/',
+    ready: true,
+    auth: true,
   },
   {
     id: 'vehicle',

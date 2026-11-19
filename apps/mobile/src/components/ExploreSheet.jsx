@@ -27,10 +27,20 @@ export function ExploreSheet({ visible, title, onClose, children, footer }) {
             height: Math.max(300, height * 0.92),
             maxHeight: '100%',
             backgroundColor: colors.background,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28,
           }}
         >
+          <View
+            style={{
+              width: 38,
+              height: 5,
+              borderRadius: 3,
+              backgroundColor: colors.border,
+              alignSelf: 'center',
+              marginTop: 8,
+            }}
+          />
           <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -43,7 +53,7 @@ export function ExploreSheet({ visible, title, onClose, children, footer }) {
                 justifyContent: 'space-between',
               }}
             >
-              <Copy size={22} weight="700" style={{ flex: 1 }}>
+              <Copy display size={26} weight="700" style={{ flex: 1 }}>
                 {title}
               </Copy>
               <Button title="Fechar" variant="text" onPress={onClose} />

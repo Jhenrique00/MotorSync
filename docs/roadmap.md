@@ -11,14 +11,15 @@ Este roadmap separa implementação encontrada no ZIP, validação pendente e fu
 - [x] Integração de cliente Supabase Auth/PostgreSQL/Storage no código.
 - [x] Código de Home social, Explorar, estoque e gestão comercial.
 - [x] 100 testes Node aprovados no ZIP em 18/11/2026.
-- [ ] Sincronização integral dos arquivos-fonte do ZIP no GitHub.
+- [x] Código e migrações do ZIP editorial importados na branch do PR #22.
+- [ ] Revisar e integrar o PR à `main`.
 - [ ] Homologação ponta a ponta no Android físico ou emulador.
 - [ ] Confirmação remota da migração de favoritos privados.
 - [ ] Atualização e uso regular do GitHub Projects.
 
 ## Prioridade imediata — entrega acadêmica Fase 2
 
-1. Sincronizar o código real do ZIP no GitHub em branch revisável, excluindo `.env`, `.expo`, caches e dependências.
+1. Revisar a atualização do código no PR #22.
 2. Executar login e CRUD completo (preferencialmente Clientes) no Android.
 3. Comprovar persistência após reiniciar o aplicativo.
 4. Validar erros, rede indisponível, validações e isolamento por usuário.

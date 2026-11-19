@@ -13,8 +13,24 @@ export function createDemoState() {
 }
 const toggle = (items, id) =>
   items.includes(id) ? items.filter((item) => item !== id) : [...items, id];
+// Este estado guarda apenas exemplos locais. Anúncios reais usam ListingFavoritesProvider,
+// que persiste no Supabase e nunca mistura favoritos entre contas.
 export function demoReducer(state, action) {
   if (action.type === 'reset') return createDemoState();
+  if (
+    action.type === 'addPost' &&
+    action.post?.isLocal &&
+    typeof action.post.id === 'string' &&
+    action.post.id.startsWith('local-') &&
+    !state.posts.some((post) => post.id === action.post.id) &&
+    typeof action.post.title === 'string' &&
+    action.post.title.length <= 90 &&
+    typeof action.post.text === 'string' &&
+    action.post.text.length <= 1000 &&
+    (action.post.title.trim() || action.post.text.trim() || action.post.image)
+  ) {
+    return { ...state, posts: [action.post, ...state.posts] };
+  }
   if (['liked', 'saved', 'favorites', 'following'].includes(action.type)) {
     const valid =
       action.type === 'favorites'
