@@ -5,7 +5,7 @@ Aplicativo acadêmico em React Native 0.86.3, Expo SDK 57, Expo Router e JavaScr
 ## Executar
 
 1. Use Node.js 22.13 ou superior. Nesta pasta, execute `npm ci`.
-2. Copie `.env.example` para `.env`. Preencha `EXPO_PUBLIC_SUPABASE_URL` e `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` com a URL e a chave publicável do projeto. Não inclua senhas ou chaves administrativas.
+2. O projeto já inclui a URL e a chave publicável do Supabase usadas no MotorSync, então o `.env` não é obrigatório para iniciar. Para usar outro projeto Supabase, copie `.env.example` para `.env` e substitua a URL e a chave publicável. Nunca inclua senhas ou chaves administrativas.
 3. Rode `npm run start:go` e abra o QR no Expo Go compatível com o SDK 57. Para redes que bloqueiam a conexão local, use `npm run start:tunnel`.
 
 ## Banco e testes
