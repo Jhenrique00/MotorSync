@@ -5,6 +5,9 @@ import { socialAuthorName } from '../utils/postAttribution.js';
 const MIME_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
 const POST_FIELDS =
   'id,user_id,author_name,title,body,image_path,listing_id,created_at,social_post_likes(count),social_post_comments(count)';
+// A leitura pública não pode exigir SELECT sobre a tabela privada de curtidas.
+const PUBLIC_POST_FIELDS =
+  'id,user_id,author_name,title,body,image_path,listing_id,created_at,social_post_comments(count)';
 
 export function validateSocialPost(values) {
   const title = String(values?.title || '').trim();
@@ -95,25 +98,44 @@ export function createSocialApi(client) {
     ]);
     return { likes: likes.map((r) => r.post_id), saves: saves.map((r) => r.post_id) };
   }
-  async function rowsToPosts(rows) {
-    const { data: auth } = await client.auth.getUser();
-    const uid = auth?.user?.id || null;
-    const { likes, saves } = await selections(
-      uid,
-      rows.map((r) => r.id),
-    );
+  async function currentUserId() {
+    try {
+      const { data } = await client.auth.getUser();
+      return data?.user?.id || null;
+    } catch {
+      // Uma sessão ausente ou expirada não deve bloquear publicações públicas.
+      return null;
+    }
+  }
+  async function rowsToPosts(rows, currentId) {
+    const uid = currentId === undefined ? await currentUserId() : currentId;
+    const { likes, saves } = await selections(uid, rows.map((r) => r.id));
     return rows.map((row) => normalizeSocialPost(row, uid, likes, saves, publicImageUrl));
   }
   return {
     async list() {
-      const rows = await unwrap(
+      const uid = await currentUserId();
+      const fetchPosts = (fields) => unwrap(
         client
           .from('social_posts')
-          .select(POST_FIELDS)
+          .select(fields)
           .order('created_at', { ascending: false })
           .limit(35),
       );
-      return rowsToPosts(rows);
+      // Visitantes não têm permissão para consultar a relação privada de curtidas.
+      // Em caso de permissão negada, preservar o feed público sem alterar o RLS.
+      let rows;
+      let publicOnly = !uid;
+      try {
+        rows = await fetchPosts(publicOnly ? PUBLIC_POST_FIELDS : POST_FIELDS);
+      } catch (error) {
+        if (!uid || !['42501', 'PGRST301'].includes(error?.code)) throw error;
+        rows = await fetchPosts(PUBLIC_POST_FIELDS);
+        publicOnly = true;
+      }
+      return publicOnly
+        ? rows.map((row) => normalizeSocialPost(row, uid, [], [], publicImageUrl))
+        : rowsToPosts(rows, uid);
     },
     async get(id) {
       if (!isUuid(id)) throw new Error('Publicação inválida.');
