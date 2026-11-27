@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { Platform } from 'react-native';
 import Svg, { Defs, ClipPath, Rect, Image, Mask, LinearGradient, Stop } from 'react-native-svg';
 import { useTheme } from '../contexts/ThemeContext';
 import { palettes } from '../theme/tokens';
@@ -18,9 +19,9 @@ export function Brand({ dark = false, small = false }) {
       width={small ? 142 : 198}
       height={small ? 26 : 36}
       viewBox={`0 0 ${width} 108`}
-      accessibilityLabel="MotorSync"
-      accessible
-      accessibilityRole="image"
+      {...(Platform.OS === 'web'
+        ? { role: 'img', 'aria-label': 'MotorSync' }
+        : { accessible: true, accessibilityLabel: 'MotorSync', accessibilityRole: 'image' })}
     >
       <Defs>
         <ClipPath id={`original${id}`}>
