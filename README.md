@@ -34,6 +34,8 @@ O MotorSync é uma plataforma mobile automotiva que conecta três áreas: **Home
 Requisitos: Node.js >= 22.13 e Expo Go compatível com SDK 57.
 
 ```bash
+git clone https://github.com/Jhenrique00/MotorSync.git
+cd MotorSync
 cd apps/mobile
 npm ci
 ```
@@ -49,6 +51,25 @@ npm run start:go
 Para túnel: `npm run start:tunnel`.
 
 **Nunca** versionar `.env`, `service_role`, chaves `sb_secret_*`, senha do banco ou credenciais administrativas. O `.gitignore` mantém `.env` excluído.
+
+### Modelo lógico do banco
+
+O Supabase Auth mantém as contas, o PostgreSQL armazena os registros e o Supabase Storage guarda as fotos. A tabela resume as chaves e relações principais. As definições de colunas, restrições e políticas estão nas [migrações SQL](supabase/migrations).
+
+| Tabelas | Chaves e relacionamentos principais |
+| --- | --- |
+| `auth.users`, `profiles` | `profiles.id` é a chave primária e referencia `auth.users.id`. Cada conta pode ter um perfil. |
+| `organizations`, `organization_members` | `organization_members` vincula usuários a empresas e registra a função de cada membro. A chave é o par `organization_id`, `user_id`. |
+| `vehicles`, `listings` | Um veículo de estoque pode ter um anúncio associado por `listings.vehicle_id`. Anúncios também podem existir sem veículo de estoque. |
+| `customers` | Cada cliente pertence a um usuário (`owner_user_id`) ou a uma empresa (`organization_id`). |
+| `proposals`, `proposal_events` | Cada proposta referencia um cliente e pode referenciar veículo e anúncio. Cada evento referencia a proposta e o usuário que realizou a ação. |
+| `sales` | Cada venda referencia cliente e veículo. O veículo tem vínculo único com a venda e a proposta é opcional. |
+| `social_posts`, `social_post_comments` | Cada publicação e comentário referencia seu autor. Uma publicação pode apontar para um anúncio. Comentários referenciam a publicação e podem responder a outro comentário. |
+| `social_post_likes`, `social_post_saves`, `listing_favorites` | Curtidas e posts salvos usam o par publicação–usuário. Favoritos de anúncios usam o par anúncio–usuário. |
+
+As políticas de segurança por linha (RLS) controlam o acesso aos dados privados pelo proprietário ou pelo vínculo com a empresa. As chaves compostas com `scope_key` mantêm clientes, propostas, veículos e vendas no mesmo escopo comercial. O [modelo lógico detalhado](docs/modelo-logico.md) inclui o diagrama de relacionamentos.
+
+Para usar uma instância nova do Supabase, aplique as migrações em ordem de nome e configure o cadastro por e-mail no Auth. Em uma instância existente, compare o histórico antes de aplicar qualquer migração pendente.
 
 ## Estado funcional
 
@@ -100,6 +121,8 @@ A instalação limpa com `npm ci` passou e o Expo gerou os bundles Android, iOS 
 ## Entrega acadêmica — Fase 2
 
 A instituição exige aplicação React Native funcional, navegação entre telas, persistência, cadastro/login, ao menos um CRUD completo quando aplicável, validação, tratamento de erros e demonstração de um fluxo contínuo em dispositivo físico ou emulador.
+
+No fluxo de Clientes, entre com uma conta de teste, abra **Gestão → Clientes → Adicionar cliente** e salve um cliente fictício. Abra a ficha, edite o nome e feche e reabra o app para confirmar a persistência. Depois, exclua o cliente de teste e confira a lista novamente. Clientes com histórico comercial devem ser arquivados.
 
 Entregáveis: aplicativo funcionando, código-fonte no GitHub, README na raiz com tecnologias/modelo lógico/configuração e vídeo de até 10 minutos no Google Drive. Os links do repositório e do vídeo devem ser enviados pelo AVA.
 
