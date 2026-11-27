@@ -1,5 +1,5 @@
 import 'react-native-url-polyfill/auto';
-import { createClient, processLock } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { environment, backendStatus } from '../config/environment';
 import { sessionStorage } from './sessionStorage';
 export const supabase = backendStatus.configured
@@ -9,7 +9,6 @@ export const supabase = backendStatus.configured
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: false,
-        lock: processLock,
       },
     })
   : null;
