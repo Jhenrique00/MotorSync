@@ -15,8 +15,15 @@ export function validateEnvironment(url, key) {
     };
   return { configured: true, error: '' };
 }
+// Estes valores são públicos por definição: equivalem aos incluídos no bundle do app.
+// A proteção dos dados depende das políticas RLS configuradas no Supabase.
+// Um .env local pode substituir a configuração padrão para outro projeto Supabase.
+const defaultPublicConfig = {
+  url: 'https://kyfkizweglxuymnfkrsz.supabase.co',
+  key: 'sb_publishable_i_DFwEpTMucMqRBdm6Qocw_-po2DYY-',
+};
 export const environment = {
-  url: process.env.EXPO_PUBLIC_SUPABASE_URL || '',
-  key: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY || '',
+  url: process.env.EXPO_PUBLIC_SUPABASE_URL || defaultPublicConfig.url,
+  key: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY || defaultPublicConfig.key,
 };
 export const backendStatus = validateEnvironment(environment.url, environment.key);
