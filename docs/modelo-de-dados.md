@@ -1,67 +1,53 @@
-# Modelo de dados proposto — MotorSync
+# MotorSync — modelo de dados conforme o snapshot de 11/11/2026
 
-**Estado:** planejamento conceitual para PostgreSQL. Nenhuma tabela real ou migração foi criada neste repositório.
+O ZIP contém migrações PostgreSQL para identidade/organizações, veículos, anúncios, fluxo comercial, gestão pessoal, feed social e favoritos privados de anúncios. A presença de um arquivo SQL no ZIP não prova que foi aplicado ao banco remoto.
 
-## Núcleo social e usuários
+## Entidades encontradas nas migrações
 
-| Entidade | Propósito |
-| --- | --- |
-| users / profiles | Identidade, informações públicas e preferências |
-| organizations | Empresas que usam os módulos de Gestão |
-| organization_members | Vínculo de usuários, papéis e permissões |
-| posts | Publicações de foto, vídeo ou texto |
-| media_assets | Referências persistentes às mídias e seu estado |
-| follows / likes / comments / saves | Relacionamentos e interações do feed |
+| Área | Entidades/tabelas | Papel |
+| --- | --- | --- |
+| Identidade | `profiles`, `organizations`, `organization_members` | Perfil, empresas e associação/permissões |
+| Estoque e marketplace | `vehicles`, `listings` | Veículos e anúncios vinculados |
+| CRM/comercial | `customers`, `proposals`, `proposal_events`, `sales` | Clientes, negociações, eventos e vendas |
+| Social | `social_posts`, `social_post_likes`, `social_post_comments`, `social_post_saves` | Posts, curtidas, comentários/respostas e posts salvos |
+| Favoritos de anúncios | `listing_favorites` | Favoritos privados de anúncios; migração presente, aplicação remota não confirmada |
+| Mídia | Buckets `listing-photos`, `social-post-images` | Fotos de anúncios e posts, com políticas específicas |
 
-## Marketplace
-
-| Entidade | Propósito |
-| --- | --- |
-| listings | Anúncio, titularidade, categoria, visibilidade e status |
-| vehicles | Dados específicos dos veículos |
-| parts | Características e estoque de peças |
-| listing_media | Fotos/vídeos pertencentes ao anúncio |
-| favorites | Anúncios favoritos |
-| proposals | Negociação entre comprador e anunciante |
-| reservations | Reserva associada à proposta válida |
-
-As publicações podem referenciar um `listing_id` para conectar Home e Explorar.
-
-## Gestão ERP/CRM
-
-| Entidade | Propósito |
-| --- | --- |
-| clients | Pessoas/leads com permissões por organização |
-| sales | Vendas confirmadas e histórico |
-| expenses | Aquisição, preparação e outras despesas vinculadas |
-| financial_entries | Lançamentos financeiros autorizados |
-| work_orders / tasks | Operações, responsáveis e prazos |
-| documents / contracts | Metadados e trilhas documentais |
-| conversations / messages | Mensagens e notificações, com políticas de acesso |
-
-## Relacionamentos essenciais
+## Relacionamentos conceituais
 
 ```mermaid
 erDiagram
-    USERS ||--o{ POSTS : publishes
-    USERS ||--o{ LISTINGS : owns
-    ORGANIZATIONS ||--o{ ORGANIZATION_MEMBERS : includes
-    USERS ||--o{ ORGANIZATION_MEMBERS : belongs
-    ORGANIZATIONS ||--o{ LISTINGS : lists
-    LISTINGS ||--o{ PROPOSALS : receives
-    LISTINGS ||--o{ POSTS : appears_in
-    PROPOSALS ||--o| RESERVATIONS : may_create
-    LISTINGS ||--o| SALES : can_close
-    ORGANIZATIONS ||--o{ CLIENTS : manages
+    PROFILES ||--o{ ORGANIZATION_MEMBERS : participa
+    ORGANIZATIONS ||--o{ ORGANIZATION_MEMBERS : possui
+    PROFILES ||--o{ VEHICLES : proprietaria_pessoal
+    ORGANIZATIONS ||--o{ VEHICLES : proprietaria
+    VEHICLES ||--o{ LISTINGS : anunciado
+    PROFILES ||--o{ CUSTOMERS : gerencia_pessoal
+    ORGANIZATIONS ||--o{ CUSTOMERS : gerencia
+    CUSTOMERS ||--o{ PROPOSALS : recebe
+    VEHICLES ||--o{ PROPOSALS : negociado
+    PROPOSALS ||--o{ PROPOSAL_EVENTS : registra
+    VEHICLES ||--o| SALES : vendido_uma_vez
+    PROFILES ||--o{ SOCIAL_POSTS : publica
+    LISTINGS ||--o{ SOCIAL_POSTS : vinculo_opcional
+    SOCIAL_POSTS ||--o{ SOCIAL_POST_LIKES : recebe
+    SOCIAL_POSTS ||--o{ SOCIAL_POST_COMMENTS : recebe
+    SOCIAL_POSTS ||--o{ SOCIAL_POST_SAVES : salvo
 ```
 
-## Regras e decisões pendentes
+O diagrama é uma síntese conceitual; não substitui colunas, constraints, índices, funções ou chaves compostas dos SQLs em `supabase/migrations/`.
 
-- Não pode existir venda duplicada para um único item indivisível.
-- Proposta aceita deve respeitar status e concorrência da reserva.
-- Registros financeiros restritos nunca devem ser acessíveis fora da organização autorizada.
-- Excluir veículo com venda concluída deve ser bloqueado ou auditado por processo autorizado.
-- Armazenar custos e preços de venda em campos separados.
-- Esquema definitivo, tipos, índices, RLS, transações e migrações ainda serão definidos e testados.
+## Regras de integridade
 
-Consulte [arquitetura](arquitetura.md).
+- Propriedade pessoal e empresarial usa escopos separados.
+- Acesso empresarial exige associação e autorização.
+- Status de veículo: em preparação, disponível, reservado, vendido.
+- Proposta enviada ou aceita não conclui venda.
+- A conclusão de venda precisa ocorrer em transação no backend e impedir venda duplicada.
+- Custos internos, dados de clientes e informações financeiras não podem ser expostos no anúncio.
+- Post social pode ter vínculo opcional com anúncio autorizado.
+- `social_post_saves` e `listing_favorites` são conceitos diferentes e privados por usuário.
+
+## Estado remoto a confirmar
+
+A documentação específica do pacote descreve a migração social como aplicada em 10/11/2026 ao Supabase de desenvolvimento. A migração de favoritos privados tem contradição entre o README e os documentos técnicos: não afirmar que está aplicada até consultar o histórico remoto. Não reaplicar migrações sem essa verificação.

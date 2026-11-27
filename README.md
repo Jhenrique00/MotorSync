@@ -1,78 +1,106 @@
-# MotorSync
+# MotorSync — aplicativo mobile
 
-Aplicativo acadêmico automotivo em React Native, Expo e JavaScript. Reúne descoberta de anúncios e gestão de veículos, clientes, propostas e vendas, com serviços Supabase/PostgreSQL.
+**Atualização do código:** 19/11/2026  
+**Projeto:** conclusão da disciplina Desenvolvimento Mobile  
+**Apresentação da Fase 2:** 24 ou 26/11/2026, conforme cronograma da disciplina.
 
-## Problema e público
+O MotorSync é uma plataforma mobile automotiva que conecta três áreas: **Home (comunidade/rede social)**, **Explorar (marketplace de veículos, peças e acessórios)** e **Gestão (ERP/CRM pessoal e empresarial)**.
 
-Organiza anúncios e acompanhamento comercial que ficariam espalhados em contatos, planilhas e redes sociais. Destina-se a vendedores particulares e equipes de negócios automotivos. A gestão pessoal não exige empresa.
+> Esta versão incorpora o código do aplicativo do ZIP editorial de 11/11/2026. Consulte os resultados de validação e as pendências abaixo.
 
-## Estado comprovável nesta versão
+## Tecnologias
 
-| Área | Implementação encontrada no ZIP | Limite de validação desta entrega |
-| --- | --- | --- |
-| Home | Feed, comentários e interações de demonstração locais em DemoContext | Rede social persistente não implementada |
-| Explorar | Consulta a listings, pesquisa, categorias, filtros e paginação; fallback quando a função de pesquisa não existe | Integração remota e filtros precisam de teste no ambiente configurado |
-| Criar (+) | Anúncios, rascunho, publicação, edição, arquivamento, exclusão e fotos via Storage | Publicação social indisponível; atalhos dependem da capacidade comercial |
-| Gestão | Estoque, clientes, propostas, vendas e resultados comerciais, serviços/RPC e propriedade pessoal ou empresarial | Operações dependem do esquema e das permissões remotas; não equivalem a um financeiro completo |
-| Perfil | Cadastro/login, sessão persistente, logout, edição do nome e consulta de vínculos | Confirmação de e-mail respeita o backend; precisa de teste real por conta |
-| Financeiro | Existem tela, serviço e SQL de referência | Pendente; não apresentar como operacional |
+- React Native 0.86.3, Expo SDK 57 e Expo Router.
+- JavaScript/JSX (não TypeScript nesta versão).
+- Supabase Auth, PostgreSQL, Row Level Security (RLS) e Supabase Storage.
+- Navegação inferior: **Home · Explorar · Criar (+) · Gestão · Perfil**.
+- Tipografia editorial: Inter para textos funcionais e Playfair Display para títulos; acento laranja `#FF6B00`, superfícies neutras e temas claro/escuro.
 
-Presença de implementação não comprova funcionamento em produção. Testes locais, API simulada, Supabase real e Android são evidências distintas. Veja [validação](docs/validacao-publicacao.md).
+## Estrutura do aplicativo
 
-## Tecnologias e arquitetura
+- `apps/mobile/app/`: rotas Expo Router.
+- `apps/mobile/src/screens/`: telas.
+- `apps/mobile/src/components/`: componentes de interface.
+- `apps/mobile/src/hooks/`: carregamento e sincronização.
+- `apps/mobile/src/services/`: autenticação, Supabase e repositórios.
+- `apps/mobile/src/contexts/`: sessão, tema, favoritos e estado demonstrativo.
+- `apps/mobile/src/theme/`: tokens e tipografia.
+- `apps/mobile/tests/`: testes automatizados.
+- `supabase/migrations/`: migrações versionadas.
+- `docs/`: arquitetura, modelo de dados, validação e requisitos acadêmicos.
 
-Expo SDK 57, React Native 0.86.3, React 19.2.3, Expo Router e JavaScript. Supabase JS 2.118.0 integra Auth, PostgreSQL/RLS e Storage. AsyncStorage e SecureStore dão suporte ao armazenamento local. Testes usam node:test; Playwright está nas dependências.
+## Executar localmente
 
-As rotas de `app/` abrem telas em `src/screens/`. Componentes e temas compõem a interface; contextos controlam sessão/tema/demonstração; hooks coordenam consultas; services encapsulam API e validações compartilhadas ficam em utils/data. As cinco posições são Home, Explorar, Criar (+), Gestão e Perfil.
+Requisitos: Node.js >= 22.13 e Expo Go compatível com SDK 57.
+
+```bash
+cd apps/mobile
+npm ci
+```
+
+Crie `apps/mobile/.env` a partir de `.env.example` e configure somente a URL do Supabase e a chave publicável `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_...`).
+
+```bash
+npm test
+npm run check
+npm run start:go
+```
+
+Para túnel: `npm run start:tunnel`.
+
+**Nunca** versionar `.env`, `service_role`, chaves `sb_secret_*`, senha do banco ou credenciais administrativas. O `.gitignore` mantém `.env` excluído.
+
+## Estado funcional
+
+| Área | Estado descrito |
+| --- | --- |
+| Autenticação e perfil | Integração com Supabase implementada; repetir validação no Android |
+| Home social | Feed, autoria, fotos, curtidas, comentários, respostas e posts salvos integrados ao cliente Supabase; homologação autenticada no Android pendente |
+| Explorar | Anúncios e filtros integrados ao Supabase; validar publicação, fotos e persistência no Android |
+| Favoritos de anúncios | Cliente e migração SQL presentes; estado da aplicação remota é contraditório nos documentos e precisa ser confirmado antes de demonstrar sincronização |
+| Gestão | Estoque, Clientes, Propostas, Vendas e resultados financeiros; validar o fluxo completo no Android |
+| Seguir perfis | Local/demonstrativo, sem persistência confirmada |
+| APK/loja | Não necessário para a demonstração acadêmica; Expo Go é a rota prevista |
+
+A migração social `20261110010000_social_feed.sql` é descrita na documentação do ZIP como aplicada ao Supabase em 10/11/2026, com quatro tabelas e RLS. Não reaplicar sem consultar o histórico remoto.
+
+A migração `20261110070000_private_listing_favorites.sql` deve ser tratada como **não confirmada no banco remoto**: o README do ZIP diz que foi aplicada, enquanto os documentos técnicos específicos dizem que não. A confirmação deve vir do histórico de migrações do projeto Supabase, não de inferência.
+
+## Regras comerciais essenciais
+
+- Status de veículo: em preparação, disponível, reservado e vendido.
+- Separar preço de compra, custos de preparação, preço anunciado, preço efetivo, faturamento, lucro bruto e margem.
+- Proposta enviada ou aceita não equivale a venda concluída.
+- Impedir venda duplicada no backend; concluir venda de forma transacional.
+- Dados privados de clientes, custos e empresas não podem ser expostos no feed ou a usuários sem permissão.
+- Gestão pessoal não deve exigir vínculo com uma empresa.
+
+## Validação local registrada nesta revisão
+
+Na cópia preparada para publicação, em 19/11/2026, foi executado:
 
 ```text
-apps/mobile/
-  app/                 rotas Expo Router
-  src/                 telas, componentes, contextos, hooks e serviços
-  assets/              identidade visual
-  tests/               testes unitários e com API simulada
-  package.json
-  package-lock.json
-supabase/migrations/   SQL de referência, não aplicação automática
-docs/                  modelo lógico, validação e plano de publicação
+npm test
+100 testes aprovados
+0 falhas
+0 ignorados
 ```
 
-## Instalação e execução
+A instalação limpa com `npm ci` passou e o Expo gerou os bundles Android, iOS e web. A checagem online das dependências excedeu o tempo de espera, mas a checagem com as informações locais do Expo passou. Esses resultados não comprovam o fluxo no aparelho nem transações autenticadas no Supabase.
 
-Requisitos: Node.js >=22.13, npm, Expo Go compatível e conexão com a internet.
+## Documentação
 
-```powershell
-cd apps/mobile
-npm.cmd ci
-Copy-Item .env.example .env
-```
+- [Estado técnico e pendências](docs/status-2026-11-18.md)
+- [Requisitos acadêmicos da instituição](docs/requisitos-academicos.md)
+- [Modelo lógico do banco](docs/modelo-logico.md)
+- [Arquitetura](docs/arquitetura.md)
+- [Modelo de dados](docs/modelo-de-dados.md)
+- [Roadmap](docs/roadmap.md)
 
-Preencha `.env` com a URL e a chave **publicável** do seu projeto Supabase. Nunca use service_role, chave secreta ou senha do banco em variáveis Expo. A chave publicável é distribuída ao cliente; a proteção dos dados depende das políticas RLS no servidor. O arquivo `.env` fica fora do Git.
+## Entrega acadêmica — Fase 2
 
-```powershell
-npm.cmd run start:go
-```
+A instituição exige aplicação React Native funcional, navegação entre telas, persistência, cadastro/login, ao menos um CRUD completo quando aplicável, validação, tratamento de erros e demonstração de um fluxo contínuo em dispositivo físico ou emulador.
 
-Escaneie o QR Code no Expo Go com celular e computador na mesma rede. Se necessário, encerre e execute `npm.cmd run start:tunnel` (pode exigir dependência adicional do túnel). Para web: `npm.cmd run web`. O ZIP contém código-fonte; instalação direta no Android exige APK, não incluído.
+Entregáveis: aplicativo funcionando, código-fonte no GitHub, README na raiz com tecnologias/modelo lógico/configuração e vídeo de até 10 minutos no Google Drive. Os links do repositório e do vídeo devem ser enviados pelo AVA.
 
-## Banco e segurança
-
-O cliente usa autenticação persistente, RLS e funções de transação do PostgreSQL. Anúncios públicos e estoque privado são entidades distintas. Fotos usam o bucket privado `listing-photos`. O [modelo lógico](docs/modelo-logico.md) descreve relações encontradas no SQL do ZIP.
-
-As migrações são referência de desenvolvimento: sua presença não comprova aplicação remota. Não executar em um banco existente sem revisar o histórico, os identificadores remotos e as permissões. Esta preparação não altera banco ou políticas.
-
-## Testes
-
-```powershell
-cd apps/mobile
-npm.cmd test
-npm.cmd run check
-```
-
-`npm test` inclui validações de regras, contratos e serviços com respostas simuladas; não valida Android nem prova RLS remoto. Os scripts `test:ui` e `test:live:explore` referenciam arquivos ausentes no ZIP e não são reproduzíveis nesta versão. Esse limite foi preservado para manter o código original.
-
-## Disciplina e pendências
-
-Projeto para a disciplina Desenvolvimento Mobile da UniRios. Professor, integrantes, turma, período e critérios completos de avaliação precisam ser confirmados; não constam na documentação deste ZIP. Licença não definida.
-
-O ZIP original não contém histórico Git. A publicação deve acrescentar a versão existente ao histórico do repositório, com data real e sem substituir arquivos remotos não relacionados. Planejamento de issues e quadro em [plano de publicação](docs/plano-publicacao.md).
+Consulte [requisitos acadêmicos](docs/requisitos-academicos.md) e priorize uma funcionalidade completa e comprovável em vez de apresentar módulos não homologados como concluídos.

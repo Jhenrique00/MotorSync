@@ -1,68 +1,61 @@
-# Arquitetura proposta — MotorSync
+# Arquitetura real do MotorSync — snapshot editorial de 11/11/2026
 
-> **Planejamento técnico, não implementação existente.** O repositório ainda não possui código React Native/Expo nem infraestrutura Supabase configurada.
+> Este documento descreve os arquivos do ZIP editorial analisado em 18/11/2026. Não representa homologação de todos os fluxos nem comprova o estado atual do banco remoto.
 
-## Arquitetura-alvo
+## Stack identificada
 
-```mermaid
-flowchart LR
-    A[MotorSync mobile<br/>React Native + Expo + TypeScript]
-    B[Autenticação e serviços<br/>Supabase / API segura]
-    C[(PostgreSQL<br/>RLS)]
-    D[(Storage<br/>fotos e vídeos)]
-    E[Funções seguras<br/>transações e integrações]
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-```
+- React Native 0.86.3, Expo SDK 57, Expo Router e JavaScript/JSX.
+- Supabase Auth, PostgreSQL, Row Level Security (RLS) e Supabase Storage.
+- Tipografia Inter e Playfair Display, temas claro/escuro e acento `#FF6B00`.
+- A versão atual analisada não usa TypeScript nem WebView como casca do aplicativo.
 
-Supabase é a opção preferencial para avaliação; a decisão definitiva depende de requisitos, custos e segurança. O aplicativo não deve conter chaves secretas nem executar regras críticas exclusivamente no dispositivo.
-
-## Organização sugerida
+## Organização do código
 
 ```text
 apps/mobile/
-  src/app/               # rotas Expo Router
-  src/components/        # UI reutilizável
-  src/features/          # home, explorar, criação, gestão, perfil
-  src/services/          # autenticação e chamadas de backend
-  src/theme/             # tokens visuais
-  src/types/
+  app/             rotas Expo Router
+  src/screens/     composição das telas
+  src/components/  componentes de interface
+  src/hooks/       carregamento e sincronização
+  src/services/    APIs, autenticação e repositórios
+  src/contexts/    sessão, tema, favoritos e estado demonstrativo
+  src/data/        dados de exemplo e regras de domínio
+  src/config/      configuração pública e ações
+  src/utils/       validações e cálculos
+  src/theme/       tokens e tipografia
+  tests/           testes Node e scripts de integração
 supabase/
-  migrations/
-  functions/
-docs/
+  migrations/      histórico SQL versionado
+  tests/           testes e inspeções SQL
+docs/              arquitetura, modelo e evidências
 ```
 
-## Responsabilidades
+## Fluxos técnicos encontrados
 
-| Camada | Responsabilidade |
-| --- | --- |
-| Mobile | UI, navegação, validação básica, prévia de mídia, acessibilidade |
-| Backend | autenticação, políticas de acesso, upload, transações, integrações e auditoria |
-| PostgreSQL | relações, restrições, índices e isolamento entre organizações |
-| Storage | persistência e controle de acesso de fotos e vídeos |
+- **Home:** rota de aba → `HomeScreen` → `useSocialFeed` → `socialApi`/`socialRepository` → Supabase. O cliente implementa publicação, mídia, curtidas, comentários, respostas e posts salvos. A validação autenticada completa no Android ainda está pendente.
+- **Explorar:** `ExploreScreen` → `useExplore` → `exploreApi`; anúncios e fotos dependem do Supabase e das políticas de acesso.
+- **Favoritos de anúncios:** `ListingFavoritesContext` → API/repositório dedicados. A migração SQL está no ZIP, mas a aplicação remota é contraditória nos documentos; tratar como não confirmada até conferir o histórico remoto.
+- **Gestão:** `ManagementScreen` → `useCommercial` → `commercialApi`; estoque, clientes, propostas e vendas têm validações e operações comerciais. A conclusão de venda deve continuar no backend transacional.
+- **Autenticação:** `AuthContext`, `authService` e cliente Supabase. A interface não substitui RLS.
 
-## Transações comerciais
+## Navegação e domínio
 
-1. Criar anúncio vinculado ao proprietário e, opcionalmente, a uma organização.
-2. Criar proposta com comprador, anunciante e anúncio validado.
-3. Aceitar proposta com verificação concorrente do status e reserva do veículo.
-4. Concluir venda sem duplicidade; atualizar disponibilidade e histórico no mesmo fluxo consistente.
-5. Impedir remoção de registros vinculados a vendas ou propostas aceitas sem fluxo autorizado.
+- Barra inferior: Home, Explorar, Criar (+), Gestão, Perfil.
+- Gestão principal: Estoque, Clientes, Propostas; vendas/resultados são acessados pela área comercial/financeira.
+- Gestão pessoal não deve exigir organização. Acesso empresarial depende de vínculo e papel autorizado.
+- Veículos: em preparação, disponível, reservado, vendido.
+- Proposta aceita não é venda. Venda deve atualizar o veículo e o anúncio de forma consistente e impedir duplicidade.
+- Compra, preparação, preço anunciado, valor efetivo, faturamento e lucro são grandezas distintas.
 
-## Segurança e privacidade
+## Segurança
 
-- RLS por usuário, organização e papel.
-- Validação no servidor para custos, propostas, reservas e vendas.
-- Não confiar em controles meramente visuais.
-- Credenciais fora do Git; somente `.env.example` pode ser versionado.
-- Tratar dados pessoais segundo requisitos legais aplicáveis.
-- Mídia com fallback, estados de falha e política de retenção.
+- RLS e validação no backend para operações sensíveis.
+- Somente URL e chave publicável Supabase podem estar no cliente.
+- Nunca incluir `.env`, `service_role`, `sb_secret_*` ou senha de banco no Git.
+- Não expor dados de CRM, custos ou indicadores privados no feed/marketplace.
 
-## Migração do protótipo
+## Validação conhecida e limites
 
-O HTML atual é **referência de interface e comportamento**. Não deve ser incorporado como uma WebView única na versão de produção. Componentes e regras devem ser reconstruídos e testados em React Native.
+Na cópia do ZIP, `npm test` passou com 100 testes em 18/11/2026. São testes locais Node, parte com mocks; não comprovam Supabase autenticado ou execução no Android. Não foram executados `npm run check` nem `npm run export` nesta revisão.
 
-Veja [modelo de dados](modelo-de-dados.md) e [roadmap](roadmap.md).
+Consulte [status consolidado](status-2026-11-18.md), [modelo lógico](modelo-logico.md) e [modelo de dados](modelo-de-dados.md).
