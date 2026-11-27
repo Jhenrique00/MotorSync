@@ -17,10 +17,14 @@ export function useSocialFeed() {
       })
       .catch((error) => {
         const preview = isSocialSchemaMissing(error);
+        const code = typeof error?.code === 'string' ? error.code : '';
+        if (__DEV__) console.warn('[MotorSync] Erro ao consultar comunidade:', code, error?.message);
         if (active) setState({ posts: [], loading: false, available: false, preview,
           error: preview
             ? 'A rede social não está disponível neste banco. Exibindo a prévia local.'
-            : 'Não foi possível carregar a comunidade. Confira a conexão e tente novamente.' });
+            : code === '42501'
+              ? 'O Supabase negou a leitura da comunidade (42501). Verifique as permissões do banco.'
+              : `Não foi possível carregar a comunidade${code ? ` (erro ${code})` : ''}. Confira a conexão e tente novamente.` });
       });
     return () => { active = false; };
   }, [session?.user?.id, revision]));
