@@ -38,7 +38,7 @@ cd apps/mobile
 npm ci
 ```
 
-Crie `apps/mobile/.env` a partir de `.env.example` e configure somente a URL do Supabase e a chave publicável `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_...`).
+O aplicativo já inclui a URL e a chave publicável do Supabase do MotorSync, portanto **não é necessário criar `.env` para iniciar a cópia baixada do GitHub**. Para apontar para outro projeto, crie `apps/mobile/.env` a partir de `.env.example` e configure `EXPO_PUBLIC_SUPABASE_URL` e `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_...`). A configuração pública não substitui as políticas RLS nem garante que as migrações necessárias estejam aplicadas ao banco.
 
 ```bash
 npm test
