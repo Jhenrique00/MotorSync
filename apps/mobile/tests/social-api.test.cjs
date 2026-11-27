@@ -110,6 +110,21 @@ test('social: list reads server posts with current-user likes and saves', async 
   assert.ok(events.some((event) => event[0] === 'social_post_saves'));
 });
 
+
+test('social: visitante lê posts sem solicitar acesso à tabela privada de curtidas', async () => {
+  const { client, events } = mockClient();
+  client.auth.getUser = async () => ({ data: { user: null } });
+  const posts = await createSocialApi(client).list();
+  assert.equal(posts.length, 1);
+  assert.equal(posts[0].liked, false);
+  assert.equal(posts[0].saved, false);
+  const select = events.find(([table, action]) => table === 'social_posts' && action === 'select');
+  assert.ok(select);
+  assert.doesNotMatch(select[2], /social_post_likes/);
+  assert.equal(events.filter(([table]) => table === 'social_post_likes').length, 0);
+  assert.equal(events.filter(([table]) => table === 'social_post_saves').length, 0);
+});
+
 test('social: likes and saves write under logged-in user, not arbitrary account', async () => {
   const { client, events } = mockClient();
   const api = createSocialApi(client);
